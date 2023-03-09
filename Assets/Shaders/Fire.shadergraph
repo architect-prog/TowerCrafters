@@ -839,11 +839,11 @@
     "m_Guid": {
         "m_GuidSerialized": "8812f260-e91c-4c8d-9c29-b5219682614d"
     },
-    "m_Name": "_MainTex",
+    "m_Name": "MainTex",
     "m_DefaultRefNameVersion": 0,
     "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Texture2D_77E5CD13",
-    "m_OverrideReferenceName": "_MainTex",
+    "m_OverrideReferenceName": "MainTex",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
     "m_CustomSlotLabel": "",
@@ -867,7 +867,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
     "m_ObjectId": "012737e124637b89a31aad168d793bcf",
     "m_Id": 0,
-    "m_DisplayName": "_MainTex",
+    "m_DisplayName": "MainTex",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -2100,7 +2100,8 @@
     },
     "m_TextureType": 0,
     "m_NormalMapSpace": 0,
-    "m_EnableGlobalMipBias": true
+    "m_EnableGlobalMipBias": true,
+    "m_MipSamplingMode": 0
 }
 
 {
@@ -4413,7 +4414,7 @@
 }
 
 {
-    "m_SGVersion": 1,
+    "m_SGVersion": 2,
     "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalUnlitSubTarget",
     "m_ObjectId": "cb278c9746e84b44bb606847e7fd41b0"
 }
@@ -4583,6 +4584,7 @@
     "m_SGVersion": 1,
     "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalTarget",
     "m_ObjectId": "d000a10ecd36446597f4765890737072",
+    "m_Datas": [],
     "m_ActiveSubTarget": {
         "m_Id": "cb278c9746e84b44bb606847e7fd41b0"
     },
@@ -4595,6 +4597,7 @@
     "m_AlphaClip": true,
     "m_CastShadows": true,
     "m_ReceiveShadows": true,
+    "m_SupportsLODCrossFade": false,
     "m_CustomEditorGUI": "",
     "m_SupportVFX": false
 }

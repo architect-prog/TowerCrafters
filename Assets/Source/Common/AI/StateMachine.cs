@@ -81,7 +81,7 @@ namespace Source.Common.AI
         {
             while (isWorking)
             {
-                var nextState = GetNextState();
+                var nextState = GetNextStateOrDefault();
                 if (nextState is not null)
                 {
                     SetState(nextState);
@@ -91,7 +91,7 @@ namespace Source.Common.AI
             }
         }
 
-        private IState GetNextState()
+        private IState GetNextStateOrDefault()
         {
             var result = currentStateTransitions.Where(x => x.Condition())
                 .MinBy(x => x.Weight);

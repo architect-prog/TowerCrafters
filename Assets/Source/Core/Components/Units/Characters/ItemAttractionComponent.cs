@@ -1,5 +1,6 @@
 ﻿using System;
 using Source.Common.Animation;
+using Source.Common.DI;
 using Source.Common.Extensions;
 using Source.Kernel.Interfaces.Components;
 using Source.Kernel.Interfaces.Providers;
@@ -15,6 +16,7 @@ namespace Source.Core.Components.Units.Characters
 
         private CircleCollider2D attractionArea;
 
+        [Construct]
         public void Construct(ICollectingRangeProvider collectingRangeProvider)
         {
             if (collectingRangeProvider == null)

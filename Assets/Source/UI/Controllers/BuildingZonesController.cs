@@ -44,14 +44,14 @@ namespace Source.UI.Controllers
 
         private void OnEnable()
         {
-            MessageBus.AddListener(Messaging.Events.BuildingSelected, () => EnableZones());
-            MessageBus.AddListener(Messaging.Events.BuildingSelectionCanceled, () => DisableZones());
+            MessageBus.AddListener(Messaging.Events.BuildingSelected, EnableZones);
+            MessageBus.AddListener(Messaging.Events.BuildingSelectionCanceled, DisableZones);
         }
 
         private void OnDisable()
         {
-            MessageBus.RemoveListener(Messaging.Events.BuildingSelected, () => EnableZones());
-            MessageBus.RemoveListener(Messaging.Events.BuildingSelectionCanceled, () => DisableZones());
+            MessageBus.RemoveListener(Messaging.Events.BuildingSelected, EnableZones);
+            MessageBus.RemoveListener(Messaging.Events.BuildingSelectionCanceled, DisableZones);
         }
     }
 }

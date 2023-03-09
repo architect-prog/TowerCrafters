@@ -17,6 +17,7 @@ namespace Source.Core.Components.Units.Common
 
         private IDamageProvider damage;
         private IAttackFrequencyProvider attackFrequency;
+        private ContactFilter2D contactFilter;
         private Collider2D[] targets;
 
         public float DelayBeforeAttack => delayBeforeAttack;
@@ -31,11 +32,16 @@ namespace Source.Core.Components.Units.Common
             attackFrequency = attackFrequencyProvider;
 
             targets = new Collider2D[targetLimit];
+            contactFilter = new ContactFilter2D
+            {
+                useLayerMask = true,
+                layerMask = attackLayers
+            };
         }
 
         public void Attack()
         {
-            Physics2D.OverlapCircleNonAlloc(attackPoint.position, attackRange, targets, attackLayers);
+            Physics2D.OverlapCircle(attackPoint.position, attackRange, contactFilter, targets);
 
             var damageableTargets = targets
                 .Where(x => x)

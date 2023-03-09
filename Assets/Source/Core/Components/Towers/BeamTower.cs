@@ -28,7 +28,7 @@ namespace Source.Core.Components.Towers
                 return;
             }
 
-            beam = Instantiate(beamPrefab, transform.position, Quaternion.identity);
+            beam = Instantiate(beamPrefab, transform, false);
             beam.Disable();
         }
 

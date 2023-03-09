@@ -10,6 +10,8 @@
             public const string EssenceTransactionCompleted = "EssenceWalletTransactionCompleted";
             public const string ProtectorateDestroyed = "ProtectorateDestroyed";
             public const string ProtectorateDurabilityUpdated = "ProtectorateDurabilityUpdated";
+            public const string AbilitiesInitialized = "AbilitiesInitialized";
+            public const string AbilityExecuted = "AbilityExecuted";
         }
     }
 }

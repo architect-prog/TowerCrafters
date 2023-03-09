@@ -11,15 +11,15 @@ namespace Source.UI.Controllers
 
         private void OnEnable()
         {
-            MessageBus<int>.AddListener(Messaging.Events.ProtectorateDurabilityUpdated, x => UpdateCoinsView(x));
+            MessageBus<int>.AddListener(Messaging.Events.ProtectorateDurabilityUpdated, UpdateDurabilityView);
         }
 
         private void OnDisable()
         {
-            MessageBus<int>.RemoveListener(Messaging.Events.ProtectorateDurabilityUpdated, x => UpdateCoinsView(x));
+            MessageBus<int>.RemoveListener(Messaging.Events.ProtectorateDurabilityUpdated, UpdateDurabilityView);
         }
 
-        private void UpdateCoinsView(int balance)
+        private void UpdateDurabilityView(int balance)
         {
             view.UpdateDurability(balance);
         }

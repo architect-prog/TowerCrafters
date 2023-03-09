@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using Source.Core.Components.Building.Dto;
 using Source.Core.Components.Building.Interfaces;
-using Source.Core.Extensions;
 using Source.Kernel.Entities;
 using UnityEngine;
 
@@ -57,7 +56,7 @@ namespace Source.Core.Components.Building
 
         private GridArea GetGridArea(Building building, Vector2 buildPosition)
         {
-            var localGridPosition = (buildPosition - grid.RootPosition).ToVector2Int();
+            var localGridPosition = Vector2Int.FloorToInt(buildPosition - grid.RootPosition);
             var result = new GridArea(building.Data.Size, localGridPosition, grid.Options);
 
             return result;

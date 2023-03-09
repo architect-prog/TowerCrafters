@@ -19,14 +19,14 @@ namespace Source.UI.Controllers
 
         private void OnEnable()
         {
-            MessageBus<int>.AddListener(Messaging.Events.CoinTransactionCompleted, x => UpdateCoinsView(x));
-            MessageBus<int>.AddListener(Messaging.Events.EssenceTransactionCompleted, x => UpdateEssenceView(x));
+            MessageBus<int>.AddListener(Messaging.Events.CoinTransactionCompleted, UpdateCoinsView);
+            MessageBus<int>.AddListener(Messaging.Events.EssenceTransactionCompleted, UpdateEssenceView);
         }
 
         private void OnDisable()
         {
-            MessageBus<int>.RemoveListener(Messaging.Events.CoinTransactionCompleted, x => UpdateCoinsView(x));
-            MessageBus<int>.RemoveListener(Messaging.Events.EssenceTransactionCompleted, x => UpdateEssenceView(x));
+            MessageBus<int>.RemoveListener(Messaging.Events.CoinTransactionCompleted, UpdateCoinsView);
+            MessageBus<int>.RemoveListener(Messaging.Events.EssenceTransactionCompleted, UpdateEssenceView);
         }
 
         private void UpdateCoinsView(int balance)

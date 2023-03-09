@@ -79,7 +79,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
+    serializedVersion: 3
     m_TransformParent: {fileID: 1998976560987436242}
     m_Modifications:
     - target: {fileID: 7501765523401344813, guid: 8cf2d1a7f2e0b844487eb5c118fcb487, type: 3}
@@ -131,7 +131,9 @@ PrefabInstance:
       value: BuildingZone
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8cf2d1a7f2e0b844487eb5c118fcb487, type: 3}
 --- !u!4 &9030348061134469971 stripped
 Transform:

@@ -11,13 +11,13 @@ namespace Source.Core.Components.Units
     {
         [SerializeField] private SingleTargetSensor targetSensor;
 
+        private IHealthComponent health;
         private IStateMachine stateMachine;
         private MoveState moveState;
         private AttackState attackState;
         private DieState dieState;
         private WoundState woundState;
 
-        private IHealthComponent health;
         private GameObject attackTarget;
 
         [Construct]
@@ -44,26 +44,33 @@ namespace Source.Core.Components.Units
 
             stateMachine.SetState(moveState);
             stateMachine.Start();
+
+            SubscribeToEvents();
         }
 
-        private void OnEnable()
+        private void OnDestroy()
+        {
+            UnsubscribeFromEvents();
+        }
+
+        private void TargetChangeHandler(GameObject detectedTarget) => attackTarget = detectedTarget;
+
+        private void DiedHandler() => stateMachine.SetState(dieState);
+
+        private void DamageTakenHandler() => stateMachine.SetState(woundState);
+
+        private void SubscribeToEvents()
         {
             targetSensor.targetChanged += TargetChangeHandler;
             health.damageTaken += DamageTakenHandler;
             health.died += DiedHandler;
         }
 
-        private void OnDisable()
+        private void UnsubscribeFromEvents()
         {
             targetSensor.targetChanged -= TargetChangeHandler;
             health.damageTaken -= DamageTakenHandler;
             health.died -= DiedHandler;
         }
-
-        private void TargetChangeHandler(GameObject detectedTarget) => attackTarget = detectedTarget;
-
-        private void DamageTakenHandler() => stateMachine.SetState(woundState);
-
-        private void DiedHandler() => stateMachine.SetState(dieState);
     }
 }
