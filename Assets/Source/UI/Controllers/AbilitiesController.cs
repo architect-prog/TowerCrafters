@@ -1,5 +1,4 @@
-﻿using System;
-using Source.Common.Messaging;
+﻿using Source.Common.Messaging;
 using Source.Core.Components.Abilities.Interfaces;
 using Source.Core.Constants;
 using Source.UI.Views;

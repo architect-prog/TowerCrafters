@@ -1,4 +1,4 @@
-﻿using Source.Core.Components.Abilities.Dto;
+﻿using Source.Core.Components.Abilities.Contracts;
 
 namespace Source.Core.Components.Abilities.Interfaces
 {

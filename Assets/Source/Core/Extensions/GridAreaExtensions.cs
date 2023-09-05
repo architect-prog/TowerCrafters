@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Source.Core.Components.Building.Dto;
+using Source.Core.Components.Building.Contracts;
 using Source.Kernel.Entities;
 
 namespace Source.Core.Extensions

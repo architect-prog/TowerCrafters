@@ -36,7 +36,8 @@ namespace Source.Core.Components.Units.Enemies
             containerBuilder.RegisterComponent<ILootBag, LootBag>(obj);
             containerBuilder.RegisterComponent<IAttackComponent, AttackComponent>(obj);
             containerBuilder.RegisterComponent<IDeathComponent, DestroyAtDeathComponent>(obj);
-            containerBuilder.RegisterComponent<ITargetMovingComponent, WaypointMovingComponent>(obj);
+            //containerBuilder.RegisterComponent<ITargetMovingComponent, WaypointMovingComponent>(obj);
+            containerBuilder.RegisterComponent<ITargetMovingComponent, PathfinderMovingComponent>(obj);
             containerBuilder.RegisterComponent<IProtectorateAttackComponent, ProtectorateAttackComponent>(obj);
             containerBuilder.RegisterComponent<IHealthComponent, HealthComponent>(obj);
             containerBuilder.RegisterComponent<IRotatingComponent, RotatingComponent>(obj);

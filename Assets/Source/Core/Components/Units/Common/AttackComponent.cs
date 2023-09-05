@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Source.Common.DI;
+﻿using Source.Common.DI;
 using Source.Core.Constants;
 using Source.Kernel.Interfaces.Components;
 using Source.Kernel.Interfaces.Providers;
@@ -43,13 +42,14 @@ namespace Source.Core.Components.Units.Common
         {
             Physics2D.OverlapCircle(attackPoint.position, attackRange, contactFilter, targets);
 
-            var damageableTargets = targets
-                .Where(x => x)
-                .Select(x => x.GetComponent<IHealthComponent>())
-                .ToArray();
-
-            foreach (var target in damageableTargets)
-                target.ApplyDamage(damage.TotalDamage);
+            foreach (var target in targets)
+            {
+                if (target)
+                {
+                    var targetHealth = target.GetComponent<IHealthComponent>();
+                    targetHealth?.ApplyDamage(damage.TotalDamage);
+                }
+            }
         }
 
         private void OnDrawGizmos()

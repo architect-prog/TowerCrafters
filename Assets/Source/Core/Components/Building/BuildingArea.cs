@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using Source.Core.Components.Building.Dto;
+using Source.Core.Components.Building.Contracts;
 using Source.Core.Components.Building.Interfaces;
 using Source.Kernel.Entities;
 using UnityEngine;

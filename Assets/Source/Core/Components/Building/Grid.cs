@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Source.Common.Utils;
-using Source.Core.Components.Building.Dto;
+using Source.Core.Components.Building.Contracts;
 using Source.Core.Components.Building.Factories;
 using Source.Core.Components.Building.Interfaces;
 using Source.Core.Constants;
