@@ -41,7 +41,7 @@ namespace Pathfinding {
 		public static void FindAllModifiers () {
 			var allModifiers = FindObjectsOfType(typeof(GraphModifier)) as GraphModifier[];
 
-			for (int i = 0; i < allModifiers.Length; i++) {
+			for (var i = 0; i < allModifiers.Length; i++) {
 				if (allModifiers[i].enabled) allModifiers[i].OnEnable();
 			}
 		}
@@ -62,7 +62,7 @@ namespace Pathfinding {
 				FindAllModifiers();
 			}
 
-			GraphModifier c = root;
+			var c = root;
 			switch (type) {
 			case EventType.PreScan:
 				while (c != null) { c.OnPreScan(); c = c.next; }
@@ -195,7 +195,7 @@ namespace Pathfinding {
 			base.Reset();
 			// Create a new random 64 bit value (62 bit actually because we skip negative numbers, but that's still enough by a huge margin)
 			var rnd1 = (ulong)Random.Range(0, int.MaxValue);
-			var rnd2 = ((ulong)Random.Range(0, int.MaxValue) << 32);
+			var rnd2 = (ulong)Random.Range(0, int.MaxValue) << 32;
 
 			uniqueID = rnd1 | rnd2;
 			usedIDs[uniqueID] = this;

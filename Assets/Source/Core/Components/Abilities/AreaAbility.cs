@@ -1,4 +1,5 @@
 ﻿using Source.Common.Extensions;
+using Source.Core.Components.Abilities.Contracts;
 using Source.Core.Components.Abilities.Interfaces;
 using Source.Kernel.Contracts;
 using Source.Kernel.Data;
@@ -21,7 +22,7 @@ namespace Source.Core.Components.Abilities
         private float cooldown;
 
         public AbilityData Data => data;
-        public float Cooldown => cooldown;
+        public float Cooldown { get; set; }
 
         private void Start()
         {
@@ -34,7 +35,7 @@ namespace Source.Core.Components.Abilities
             };
         }
 
-        public void Execute()
+        public void Execute(AbilityExecutingData abilityExecutingData)
         {
             var numOfTargets = detectionArea.Overlap(contactFilter, detectedTargets);
             for (var i = 0; i < numOfTargets; i++)

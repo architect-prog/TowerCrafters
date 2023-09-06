@@ -1,4 +1,3 @@
-using UnityEngine;
 using System.Collections.Generic;
 #if UNITY_5_5_OR_NEWER
 using UnityEngine.Profiling;
@@ -38,9 +37,9 @@ namespace Pathfinding {
 			Profiler.BeginSample("Calling Path Callbacks");
 
 			// Hard coded limit on 1.0 ms
-			long targetTick = timeSlice ? System.DateTime.UtcNow.Ticks + 1 * 10000 : 0;
+			var targetTick = timeSlice ? System.DateTime.UtcNow.Ticks + 1 * 10000 : 0;
 
-			int counter = 0;
+			var counter = 0;
 			// Loop through the linked list and return all paths
 			while (true) {
 				// Move to the next path

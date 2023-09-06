@@ -14,7 +14,7 @@ namespace Pathfinding {
 			graph.rotation = EditorGUILayout.Vector3Field("Rotation", graph.rotation);
 
 			graph.scale = EditorGUILayout.FloatField(new GUIContent("Scale", "Scale of the mesh"), graph.scale);
-			graph.scale = Mathf.Abs(graph.scale) < 0.01F ? (graph.scale >= 0 ? 0.01F : -0.01F) : graph.scale;
+			graph.scale = Mathf.Abs(graph.scale) < 0.01F ? graph.scale >= 0 ? 0.01F : -0.01F : graph.scale;
 
 			graph.nearestSearchOnlyXZ = EditorGUILayout.Toggle(new GUIContent("Nearest node queries in XZ space",
 				"Recomended for single-layered environments.\nFaster but can be inaccurate esp. in multilayered contexts."), graph.nearestSearchOnlyXZ);

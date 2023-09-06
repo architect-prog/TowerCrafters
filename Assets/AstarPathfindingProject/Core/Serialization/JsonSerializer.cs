@@ -1,9 +1,9 @@
+#define NETFX_CORE
 using System;
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding.Util;
-using Pathfinding.WindowsStore;
 
 #if ASTAR_NO_ZIP
 using Pathfinding.Serialization.Zip;
@@ -62,7 +62,7 @@ namespace Pathfinding.Serialization {
 			if (id2NodeMapping == null) throw new Exception("Calling DeserializeNodeReference when not deserializing node references");
 
 			if (id == -1) return null;
-			GraphNode node = id2NodeMapping[id];
+			var node = id2NodeMapping[id];
 			if (node == null) throw new Exception("Invalid id ("+id+")");
 			return node;
 		}
@@ -109,17 +109,17 @@ namespace Pathfinding.Serialization {
 
 		/// <summary>Read a UnityEngine.Object</summary>
 		public UnityEngine.Object DeserializeUnityObject ( ) {
-			int inst = reader.ReadInt32();
+			var inst = reader.ReadInt32();
 
 			if (inst == int.MaxValue) {
 				return null;
 			}
 
-			string name = reader.ReadString();
-			string typename = reader.ReadString();
-			string guid = reader.ReadString();
+			var name = reader.ReadString();
+			var typename = reader.ReadString();
+			var guid = reader.ReadString();
 
-			System.Type type = System.Type.GetType(typename);
+			var type = System.Type.GetType(typename);
 
 			if (type == null) {
 				Debug.LogError("Could not find type '"+typename+"'. Cannot deserialize Unity reference");
@@ -127,9 +127,9 @@ namespace Pathfinding.Serialization {
 			}
 
 			if (!string.IsNullOrEmpty(guid)) {
-				UnityReferenceHelper[] helpers = UnityEngine.Object.FindObjectsOfType(typeof(UnityReferenceHelper)) as UnityReferenceHelper[];
+				var helpers = UnityEngine.Object.FindObjectsOfType(typeof(UnityReferenceHelper)) as UnityReferenceHelper[];
 
-				for (int i = 0; i < helpers.Length; i++) {
+				for (var i = 0; i < helpers.Length; i++) {
 					if (helpers[i].GetGUID() == guid) {
 						if (type == typeof(GameObject)) {
 							return helpers[i].gameObject;
@@ -141,9 +141,9 @@ namespace Pathfinding.Serialization {
 			}
 
 			//Try to load from resources
-			UnityEngine.Object[] objs = Resources.LoadAll(name, type);
+			var objs = Resources.LoadAll(name, type);
 
-			for (int i = 0; i < objs.Length; i++) {
+			for (var i = 0; i < objs.Length; i++) {
 				if (objs[i].name == name || objs.Length == 1) {
 					return objs[i];
 				}
@@ -274,7 +274,7 @@ namespace Pathfinding.Serialization {
 
 		public byte[] CloseSerialize () {
 			// As the last step, serialize metadata
-			byte[] bytes = SerializeMeta();
+			var bytes = SerializeMeta();
 			AddChecksum(bytes);
 			AddEntry("meta"+jsonExt, bytes);
 
@@ -313,12 +313,12 @@ namespace Pathfinding.Serialization {
 
 			if (graphs == null) graphs = new NavGraph[0];
 
-			for (int i = 0; i < graphs.Length; i++) {
+			for (var i = 0; i < graphs.Length; i++) {
 				//Ignore graph if null
 				if (graphs[i] == null) continue;
 
 				// Serialize the graph to a byte array
-				byte[] bytes = Serialize(graphs[i]);
+				var bytes = Serialize(graphs[i]);
 
 				AddChecksum(bytes);
 				AddEntry("graph"+i+jsonExt, bytes);
@@ -336,7 +336,7 @@ namespace Pathfinding.Serialization {
 
 			// For each graph, save the guid
 			// of the graph and the type of it
-			for (int i = 0; i < graphs.Length; i++) {
+			for (var i = 0; i < graphs.Length; i++) {
 				if (graphs[i] != null) {
 					meta.guids.Add(graphs[i].guid.ToString());
 					meta.typeNames.Add(graphs[i].GetType().FullName);
@@ -370,9 +370,9 @@ namespace Pathfinding.Serialization {
 		}
 
 		static int GetMaxNodeIndexInAllGraphs (NavGraph[] graphs) {
-			int maxIndex = 0;
+			var maxIndex = 0;
 
-			for (int i = 0; i < graphs.Length; i++) {
+			for (var i = 0; i < graphs.Length; i++) {
 				if (graphs[i] == null) continue;
 				graphs[i].GetNodes(node => {
 					maxIndex = Math.Max(node.NodeIndex, maxIndex);
@@ -388,14 +388,14 @@ namespace Pathfinding.Serialization {
 			var stream = new MemoryStream();
 			var writer = new BinaryWriter(stream);
 
-			int maxNodeIndex = GetMaxNodeIndexInAllGraphs(graphs);
+			var maxNodeIndex = GetMaxNodeIndexInAllGraphs(graphs);
 
 			writer.Write(maxNodeIndex);
 
 			// While writing node indices, verify that the max node index is the same
 			// (user written graphs might have gotten it wrong)
-			int maxNodeIndex2 = 0;
-			for (int i = 0; i < graphs.Length; i++) {
+			var maxNodeIndex2 = 0;
+			for (var i = 0; i < graphs.Length; i++) {
 				if (graphs[i] == null) continue;
 				graphs[i].GetNodes(node => {
 					maxNodeIndex2 = Math.Max(node.NodeIndex, maxNodeIndex2);
@@ -406,7 +406,7 @@ namespace Pathfinding.Serialization {
 			// Nice to verify if users are writing their own graph types
 			if (maxNodeIndex2 != maxNodeIndex) throw new Exception("Some graphs are not consistent in their GetNodes calls, sequential calls give different results.");
 
-			byte[] bytes = stream.ToArray();
+			var bytes = stream.ToArray();
 			writer.Close();
 
 			return bytes;
@@ -419,7 +419,7 @@ namespace Pathfinding.Serialization {
 			var ctx = new GraphSerializationContext(writer);
 
 			((IGraphInternals)graph).SerializeExtraInfo(ctx);
-			byte[] bytes = stream.ToArray();
+			var bytes = stream.ToArray();
 			writer.Close();
 
 			return bytes;
@@ -451,7 +451,7 @@ namespace Pathfinding.Serialization {
 			AddChecksum(bytes);
 			AddEntry("graph_references"+binaryExt, bytes);
 
-			for (int i = 0; i < graphs.Length; i++) {
+			for (var i = 0; i < graphs.Length; i++) {
 				if (graphs[i] == null) continue;
 
 				bytes = SerializeGraphExtraInfo(graphs[i]);
@@ -555,8 +555,8 @@ namespace Pathfinding.Serialization {
 			if (System.Type.Equals(graphType, null)) return null;
 
 			// Create a new graph of the right type
-			NavGraph graph = data.CreateGraph(graphType);
-			graph.graphIndex = (uint)(graphIndex);
+			var graph = data.CreateGraph(graphType);
+			graph.graphIndex = (uint)graphIndex;
 
 			var jsonName = "graph" + zipIndex + jsonExt;
 			var binName = "graph" + zipIndex + binaryExt;
@@ -588,7 +588,7 @@ namespace Pathfinding.Serialization {
 
 			graphIndexInZip = new Dictionary<NavGraph, int>();
 
-			for (int i = 0; i < meta.graphs; i++) {
+			for (var i = 0; i < meta.graphs; i++) {
 				var newIndex = graphList.Count + graphIndexOffset;
 				var graph = DeserializeGraph(i, newIndex, availableGraphTypes);
 				if (graph != null) {
@@ -618,9 +618,9 @@ namespace Pathfinding.Serialization {
 		}
 
 		bool AnyDestroyedNodesInGraphs () {
-			bool result = false;
+			var result = false;
 
-			for (int i = 0; i < graphs.Length; i++) {
+			for (var i = 0; i < graphs.Length; i++) {
 				graphs[i].GetNodes(node => {
 					if (node.Destroyed) {
 						result = true;
@@ -639,11 +639,11 @@ namespace Pathfinding.Serialization {
 			if (entry == null) throw new Exception("Node references not found in the data. Was this loaded from an older version of the A* Pathfinding Project?");
 
 			var reader = GetBinaryReader(entry);
-			int maxNodeIndex = reader.ReadInt32();
+			var maxNodeIndex = reader.ReadInt32();
 			var int2Node = new GraphNode[maxNodeIndex+1];
 
 			try {
-				for (int i = 0; i < graphs.Length; i++) {
+				for (var i = 0; i < graphs.Length; i++) {
 					graphs[i].GetNodes(node => {
 						var index = reader.ReadInt32();
 						int2Node[index] = node;
@@ -684,11 +684,11 @@ namespace Pathfinding.Serialization {
 		/// Note: Stored in files named "graph<see cref="_extra.binary"/>" where # is the graph number.
 		/// </summary>
 		public void DeserializeExtraInfo () {
-			bool anyDeserialized = false;
+			var anyDeserialized = false;
 
 			// Loop through all graphs and deserialize the extra info
 			// if there is any such info in the zip file
-			for (int i = 0; i < graphs.Length; i++) {
+			for (var i = 0; i < graphs.Length; i++) {
 				anyDeserialized |= DeserializeExtraInfo(graphs[i]);
 			}
 
@@ -706,7 +706,7 @@ namespace Pathfinding.Serialization {
 			var int2Node = DeserializeNodeReferenceMap();
 
 			// Deserialize node references
-			for (int i = 0; i < graphs.Length; i++) {
+			for (var i = 0; i < graphs.Length; i++) {
 				DeserializeNodeReferences(graphs[i], int2Node);
 			}
 
@@ -728,7 +728,7 @@ namespace Pathfinding.Serialization {
 
 		/// <summary>Calls PostDeserialization on all loaded graphs</summary>
 		public void PostDeserialization () {
-			for (int i = 0; i < graphs.Length; i++) {
+			for (var i = 0; i < graphs.Length; i++) {
 				var ctx = new GraphSerializationContext(null, null, 0, meta);
 				((IGraphInternals)graphs[i]).PostDeserialization(ctx);
 			}
@@ -744,9 +744,9 @@ namespace Pathfinding.Serialization {
 		/// Note: This method is only used for compatibility, newer versions store everything in the graph.serializedEditorSettings field which is already serialized.
 		/// </summary>
 		public void DeserializeEditorSettingsCompatibility () {
-			for (int i = 0; i < graphs.Length; i++) {
+			for (var i = 0; i < graphs.Length; i++) {
 				var zipIndex = graphIndexInZip[graphs[i]];
-				ZipEntry entry = GetEntry("graph"+zipIndex+"_editor"+jsonExt);
+				var entry = GetEntry("graph"+zipIndex+"_editor"+jsonExt);
 				if (entry == null) continue;
 
 				(graphs[i] as IGraphInternals).SerializedEditorSettings = GetString(entry);
@@ -777,7 +777,7 @@ namespace Pathfinding.Serialization {
 			buffer.Position = 0;
 			var reader = new StreamReader(buffer);
 #endif
-			string s = reader.ReadToEnd();
+			var s = reader.ReadToEnd();
 			reader.Dispose();
 			return s;
 		}
@@ -792,10 +792,10 @@ namespace Pathfinding.Serialization {
 			var reader = GetBinaryReader(entry);
 
 			if (reader.ReadString() != "A*") throw new System.Exception("Invalid magic number in saved data");
-			int major = reader.ReadInt32();
-			int minor = reader.ReadInt32();
-			int build = reader.ReadInt32();
-			int revision = reader.ReadInt32();
+			var major = reader.ReadInt32();
+			var minor = reader.ReadInt32();
+			var build = reader.ReadInt32();
+			var revision = reader.ReadInt32();
 
 			// Required because when saving a version with a field not set, it will save it as -1
 			// and then the Version constructor will throw an exception (which we do not want)
@@ -808,12 +808,12 @@ namespace Pathfinding.Serialization {
 			meta.graphs = reader.ReadInt32();
 
 			meta.guids = new List<string>();
-			int count = reader.ReadInt32();
-			for (int i = 0; i < count; i++) meta.guids.Add(reader.ReadString());
+			var count = reader.ReadInt32();
+			for (var i = 0; i < count; i++) meta.guids.Add(reader.ReadString());
 
 			meta.typeNames = new List<string>();
 			count = reader.ReadInt32();
-			for (int i = 0; i < count; i++) meta.typeNames.Add(reader.ReadString());
+			for (var i = 0; i < count; i++) meta.typeNames.Add(reader.ReadString());
 			reader.Close();
 
 			return meta;
@@ -870,7 +870,7 @@ namespace Pathfinding.Serialization {
 			// The graph was null when saving. Ignore it
 			if (String.IsNullOrEmpty(typeNames[index])) return null;
 
-			for (int j = 0; j < availableGraphTypes.Length; j++) {
+			for (var j = 0; j < availableGraphTypes.Length; j++) {
 				if (availableGraphTypes[j].FullName == typeNames[index]) return availableGraphTypes[j];
 			}
 

@@ -1,25 +1,14 @@
-﻿using Source.Common.Messaging;
+﻿using Source.Core.Components.Abilities.Contracts;
 using Source.Core.Components.Abilities.Interfaces;
-using Source.Core.Constants;
 using UnityEngine;
 
 namespace Source.Core.Components.Abilities
 {
-    public class AbilityExecutor : MonoBehaviour
+    public class AbilityExecutor : MonoBehaviour, IAbilityExecutor
     {
-        private void OnEnable()
+        public void Execute(IAbility ability, AbilityExecutingData abilityExecutingData)
         {
-            MessageBus<IAbility>.AddListener(Messaging.Events.AbilityExecuted, Execute);
-        }
-
-        private void OnDisable()
-        {
-            MessageBus<IAbility>.RemoveListener(Messaging.Events.AbilityExecuted, Execute);
-        }
-
-        private void Execute(IAbility ability)
-        {
-            ability.Execute();
+            ability.Execute(abilityExecutingData);
         }
     }
 }

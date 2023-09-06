@@ -18,7 +18,7 @@
                     "name": "Click",
                     "type": "PassThrough",
                     "id": "0f5d8332-4d0e-4be7-bdd5-9e12eaf67779",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true

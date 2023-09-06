@@ -9,15 +9,26 @@ namespace Source.Core.Components.Projectiles
         [SerializeField] private GameObject endOfBeam;
 
         private GameObject selectedTarget;
+        private Vector2 pointTarget;
 
         private void Update()
         {
             if (!selectedTarget)
+            {
+                if (pointTarget == Vector2.zero)
+                    return;
+
+                endOfBeam.transform.position = pointTarget;
+                endOfBeam.GetComponent<ParticleSystem>()?.Play();
+
+                lineEffect.SetPosition(0, transform.position);
+                lineEffect.SetPosition(1, pointTarget);
                 return;
+            }
 
             var targetPosition = selectedTarget.transform.position;
             endOfBeam.transform.position = targetPosition;
-            
+
             lineEffect.SetPosition(0, transform.position);
             lineEffect.SetPosition(1, targetPosition);
         }
@@ -25,6 +36,11 @@ namespace Source.Core.Components.Projectiles
         public void SetTarget(GameObject target)
         {
             selectedTarget = target;
+        }
+
+        public void SetTarget(Vector2 target)
+        {
+            pointTarget = target;
         }
 
         public void Enable()

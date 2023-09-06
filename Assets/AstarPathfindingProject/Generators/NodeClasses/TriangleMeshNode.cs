@@ -73,7 +73,7 @@ namespace Pathfinding {
 		/// not have the same vertex numbers.
 		/// </summary>
 		public int GetVertexIndex (int i) {
-			return i == 0 ? v0 : (i == 1 ? v1 : v2);
+			return i == 0 ? v0 : i == 1 ? v1 : v2;
 		}
 
 		/// <summary>
@@ -82,7 +82,7 @@ namespace Pathfinding {
 		/// This is slower than GetVertexIndex, if you only need to compare vertices, use GetVertexIndex.
 		/// </summary>
 		public int GetVertexArrayIndex (int i) {
-			return GetNavmeshHolder(GraphIndex).GetVertexArrayIndex(i == 0 ? v0 : (i == 1 ? v1 : v2));
+			return GetNavmeshHolder(GraphIndex).GetVertexArrayIndex(i == 0 ? v0 : i == 1 ? v1 : v2);
 		}
 
 		/// <summary>Returns all 3 vertices of this node in world space</summary>
@@ -165,9 +165,9 @@ namespace Pathfinding {
 				// Try the 8 integer coordinates around the closest point
 				// and check if any one of them are completely inside the node.
 				// This will most likely succeed as it should be very close.
-				for (int dx = -1; dx <= 1; dx++) {
-					for (int dz = -1; dz <= 1; dz++) {
-						if ((dx != 0 || dz != 0)) {
+				for (var dx = -1; dx <= 1; dx++) {
+					for (var dz = -1; dz <= 1; dz++) {
+						if (dx != 0 || dz != 0) {
 							var candidate = new Int3(i3closest.x + dx, i3closest.y, i3closest.z + dz);
 							if (ContainsPointInGraphSpace(candidate)) return candidate;
 						}
@@ -180,7 +180,7 @@ namespace Pathfinding {
 				var da = (a - i3closest).sqrMagnitudeLong;
 				var db = (b - i3closest).sqrMagnitudeLong;
 				var dc = (c - i3closest).sqrMagnitudeLong;
-				return da < db ? (da < dc ? a : c) : (db < dc ? b : c);
+				return da < db ? da < dc ? a : c : db < dc ? b : c;
 			}
 		}
 
@@ -222,9 +222,9 @@ namespace Pathfinding {
 
 			if (connections == null) return;
 
-			for (int i = 0; i < connections.Length; i++) {
-				GraphNode other = connections[i].node;
-				PathNode otherPN = handler.GetPathNode(other);
+			for (var i = 0; i < connections.Length; i++) {
+				var other = connections[i].node;
+				var otherPN = handler.GetPathNode(other);
 				if (otherPN.parent == pathNode && otherPN.pathID == handler.PathID) other.UpdateRecursiveG(path, otherPN, handler);
 			}
 		}
@@ -234,23 +234,23 @@ namespace Pathfinding {
 
 			// Flag2 indicates if this node needs special treatment
 			// with regard to connection costs
-			bool flag2 = pathNode.flag2;
+			var flag2 = pathNode.flag2;
 
 			// Loop through all connections
-			for (int i = connections.Length-1; i >= 0; i--) {
+			for (var i = connections.Length-1; i >= 0; i--) {
 				var conn = connections[i];
 				var other = conn.node;
 
 				// Make sure we can traverse the neighbour
 				if (path.CanTraverse(conn.node)) {
-					PathNode pathOther = handler.GetPathNode(conn.node);
+					var pathOther = handler.GetPathNode(conn.node);
 
 					// Fast path out, worth it for triangle mesh nodes since they usually have degree 2 or 3
 					if (pathOther == pathNode.parent) {
 						continue;
 					}
 
-					uint cost = conn.cost;
+					var cost = conn.cost;
 
 					if (flag2 || pathOther.flag2) {
 						// Get special connection cost from the path
@@ -308,7 +308,7 @@ namespace Pathfinding {
 			var edge = -1;
 
 			if (connections != null) {
-				for (int i = 0; i < connections.Length; i++) {
+				for (var i = 0; i < connections.Length; i++) {
 					if (connections[i].node == other) edge = connections[i].shapeEdge;
 				}
 			}
@@ -341,7 +341,7 @@ namespace Pathfinding {
 			if (edge == -1) {
 #if !ASTAR_NO_POINT_GRAPH
 				if (connections != null) {
-					for (int i = 0; i < connections.Length; i++) {
+					for (var i = 0; i < connections.Length; i++) {
 						if (connections[i].node.GraphIndex != GraphIndex) {
 							var mid = connections[i].node as NodeLink3Node;
 							if (mid != null && mid.GetOther(this) == toTriNode) {
@@ -361,12 +361,12 @@ namespace Pathfinding {
 			bIndex = (edge + 1) % GetVertexCount();
 
 			// Get the vertices of the shared edge for the first node
-			Int3 v1a = GetVertex(edge);
-			Int3 v1b = GetVertex((edge+1) % GetVertexCount());
+			var v1a = GetVertex(edge);
+			var v1b = GetVertex((edge+1) % GetVertexCount());
 
 			// Get tile indices
-			int tileIndex1 = (GetVertexIndex(0) >> NavmeshBase.TileIndexOffset) & NavmeshBase.TileIndexMask;
-			int tileIndex2 = (toTriNode.GetVertexIndex(0) >> NavmeshBase.TileIndexOffset) & NavmeshBase.TileIndexMask;
+			var tileIndex1 = (GetVertexIndex(0) >> NavmeshBase.TileIndexOffset) & NavmeshBase.TileIndexMask;
+			var tileIndex2 = (toTriNode.GetVertexIndex(0) >> NavmeshBase.TileIndexOffset) & NavmeshBase.TileIndexMask;
 
 			if (tileIndex1 != tileIndex2) {
 				// When the nodes are in different tiles, the edges might not be completely identical
@@ -374,7 +374,7 @@ namespace Pathfinding {
 
 				// Get the tile coordinates, from them we can figure out which edge is going to be shared
 				int x1, x2, z1, z2, coord;
-				INavmeshHolder nm = GetNavmeshHolder(GraphIndex);
+				var nm = GetNavmeshHolder(GraphIndex);
 				nm.GetTileCoordinates(tileIndex1, out x1, out z1);
 				nm.GetTileCoordinates(tileIndex2, out x2, out z2);
 
@@ -391,12 +391,12 @@ namespace Pathfinding {
 				if (otherEdge != -1) {
 					// When the nodes are in different tiles, they might not share exactly the same edge
 					// so we clamp the portal to the segment of the edges which they both have.
-					int mincoord = System.Math.Min(v1a[coord], v1b[coord]);
-					int maxcoord = System.Math.Max(v1a[coord], v1b[coord]);
+					var mincoord = System.Math.Min(v1a[coord], v1b[coord]);
+					var maxcoord = System.Math.Max(v1a[coord], v1b[coord]);
 
 					// Get the vertices of the shared edge for the second node
-					Int3 v2a = toTriNode.GetVertex(otherEdge);
-					Int3 v2b = toTriNode.GetVertex((otherEdge+1) % toTriNode.GetVertexCount());
+					var v2a = toTriNode.GetVertex(otherEdge);
+					var v2b = toTriNode.GetVertex((otherEdge+1) % toTriNode.GetVertexCount());
 
 					mincoord = System.Math.Max(mincoord, System.Math.Min(v2a[coord], v2b[coord]));
 					maxcoord = System.Math.Min(maxcoord, System.Math.Max(v2a[coord], v2b[coord]));
@@ -440,7 +440,7 @@ namespace Pathfinding {
 
 			var holder = GetNavmeshHolder(GraphIndex);
 			// Pick the point corresponding to the trilinear coordinate
-			return ((Vector3)(holder.GetVertex(v1)-holder.GetVertex(v0)))*r1 + ((Vector3)(holder.GetVertex(v2)-holder.GetVertex(v0)))*r2 + (Vector3)holder.GetVertex(v0);
+			return (Vector3)(holder.GetVertex(v1)-holder.GetVertex(v0))*r1 + (Vector3)(holder.GetVertex(v2)-holder.GetVertex(v0))*r2 + (Vector3)holder.GetVertex(v0);
 		}
 
 		public override void SerializeNode (GraphSerializationContext ctx) {

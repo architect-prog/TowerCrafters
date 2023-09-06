@@ -1,10 +1,11 @@
-﻿using Source.Input.Actions;
+﻿using Source.Common.Utils;
+using Source.Input.Actions;
 using Source.UI.Providers.Interfaces;
 using UnityEngine;
 
 namespace Source.UI.Providers
 {
-    public class CharacterInputProvider : IInputProvider
+    public class CharacterInputProvider : Singleton<CharacterInputProvider>, IInputProvider
     {
         private readonly InputActions inputActions;
 
@@ -17,6 +18,12 @@ namespace Source.UI.Providers
         public Vector2 GetMovementDirection()
         {
             var input = inputActions.Player.Move.ReadValue<Vector2>();
+            return input;
+        }
+
+        public Vector2 GetMouseClickPosition()
+        {
+            var input = inputActions.Player.Click.ReadValue<Vector2>();
             return input;
         }
 

@@ -1,9 +1,7 @@
 using UnityEngine;
-using System.Collections;
 using UnityEngine.Serialization;
 
 namespace Pathfinding {
-	using Pathfinding.RVO;
 	using Pathfinding.Util;
 
 	/// <summary>
@@ -476,7 +474,7 @@ namespace Pathfinding {
 			CalculatePathRequestEndpoints(out start, out end);
 
 			// Request a path to be calculated from our current position to the destination
-			ABPath p = ABPath.Construct(start, end, null);
+			var p = ABPath.Construct(start, end, null);
 			SetPath(p);
 		}
 
@@ -578,7 +576,7 @@ namespace Pathfinding {
 		/// <param name="maxDegrees">Maximum number of degrees to rotate this frame.</param>
 		protected Quaternion SimulateRotationTowards (Vector2 direction, float maxDegrees) {
 			if (direction != Vector2.zero) {
-				Quaternion targetRotation = Quaternion.LookRotation(movementPlane.ToWorld(direction, 0), movementPlane.ToWorld(Vector2.zero, 1));
+				var targetRotation = Quaternion.LookRotation(movementPlane.ToWorld(direction, 0), movementPlane.ToWorld(Vector2.zero, 1));
 				// This causes the character to only rotate around the Z axis
 				if (orientation == OrientationMode.YAxisForward) targetRotation *= Quaternion.Euler(90, 0, 0);
 				return Quaternion.RotateTowards(simulatedRotation, targetRotation, maxDegrees);
@@ -623,14 +621,14 @@ namespace Pathfinding {
 
 		void FinalizePosition (Vector3 nextPosition) {
 			// Use a local variable, it is significantly faster
-			Vector3 currentPosition = simulatedPosition;
-			bool positionDirty1 = false;
+			var currentPosition = simulatedPosition;
+			var positionDirty1 = false;
 
 			if (controller != null && controller.enabled && updatePosition) {
 				// Use CharacterController
 				// The Transform may not be at #position if it was outside the navmesh and had to be moved to the closest valid position
 				tr.position = currentPosition;
-				controller.Move((nextPosition - currentPosition) + accumulatedMovementDelta);
+				controller.Move(nextPosition - currentPosition + accumulatedMovementDelta);
 				// Grab the position after the movement to be able to take physics into account
 				// TODO: Add this into the clampedPosition calculation below to make RVO better respond to physics
 				currentPosition = tr.position;
@@ -647,7 +645,7 @@ namespace Pathfinding {
 			}
 
 			// Clamp the position to the navmesh after movement is done
-			bool positionDirty2 = false;
+			var positionDirty2 = false;
 			currentPosition = ClampToNavmesh(currentPosition, out positionDirty2);
 
 			// Assign the final position to the character if we haven't already set it (mostly for performance, setting the position can be slow)
@@ -699,8 +697,8 @@ namespace Pathfinding {
 			float elevation;
 
 			movementPlane.ToPlane(position, out elevation);
-			float rayLength = tr.localScale.y * height * 0.5f + Mathf.Max(0, lastElevation-elevation);
-			Vector3 rayOffset = movementPlane.ToWorld(Vector2.zero, rayLength);
+			var rayLength = tr.localScale.y * height * 0.5f + Mathf.Max(0, lastElevation-elevation);
+			var rayOffset = movementPlane.ToWorld(Vector2.zero, rayLength);
 
 			if (Physics.Raycast(position + rayOffset, -rayOffset, out hit, rayLength, groundMask, QueryTriggerInteraction.Ignore)) {
 				// Grounded

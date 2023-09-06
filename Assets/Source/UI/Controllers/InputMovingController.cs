@@ -34,7 +34,7 @@ namespace Source.UI.Controllers
 
         private void OnEnable()
         {
-            inputProvider = new CharacterInputProvider();
+            inputProvider = CharacterInputProvider.Instance;
         }
 
         private void OnDisable()

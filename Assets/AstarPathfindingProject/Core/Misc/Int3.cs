@@ -115,7 +115,7 @@ namespace Pathfinding {
 
 		public int this[int i] {
 			get {
-				return i == 0 ? x : (i == 1 ? y : z);
+				return i == 0 ? x : i == 1 ? y : z;
 			}
 			set {
 				if (i == 0) x = value;
@@ -126,9 +126,9 @@ namespace Pathfinding {
 
 		/// <summary>Angle between the vectors in radians</summary>
 		public static float Angle (Int3 lhs, Int3 rhs) {
-			double cos = Dot(lhs, rhs)/ ((double)lhs.magnitude*(double)rhs.magnitude);
+			var cos = Dot(lhs, rhs)/ ((double)lhs.magnitude*(double)rhs.magnitude);
 
-			cos = cos < -1 ? -1 : (cos > 1 ? 1 : cos);
+			cos = cos < -1 ? -1 : cos > 1 ? 1 : cos;
 			return (float)System.Math.Acos(cos);
 		}
 
@@ -199,7 +199,7 @@ namespace Pathfinding {
 				long _x = x;
 				long _y = y;
 				long _z = z;
-				return (_x*_x+_y*_y+_z*_z);
+				return _x*_x+_y*_y+_z*_z;
 			}
 		}
 

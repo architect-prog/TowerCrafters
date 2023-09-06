@@ -53,6 +53,7 @@ namespace Source.Common.Utils
         {
             yield return new WaitForSeconds(delay);
             action?.Invoke();
+            Stop();
         }
     }
 
