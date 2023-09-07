@@ -23,7 +23,7 @@ namespace Pathfinding {
 	[AddComponentMenu("Pathfinding/Link2")]
 	[HelpURL("http://arongranberg.com/astar/docs/class_pathfinding_1_1_node_link2.php")]
 	public class NodeLink2 : GraphModifier {
-		protected static Dictionary<GraphNode, NodeLink2> reference = new Dictionary<GraphNode, NodeLink2>();
+		protected static Dictionary<GraphNode, NodeLink2> reference = new();
 		public static NodeLink2 GetNodeLink (GraphNode node) {
 			NodeLink2 v;
 
@@ -218,8 +218,8 @@ namespace Pathfinding {
 			endNode.AddConnection(connectedNode2, (uint)Mathf.RoundToInt(((Int3)(clamped2 - EndTransform.position)).costMagnitude*costFactor));
 		}
 
-		private readonly static Color GizmosColor = new Color(206.0f/255.0f, 136.0f/255.0f, 48.0f/255.0f, 0.5f);
-		private readonly static Color GizmosColorSelected = new Color(235.0f/255.0f, 123.0f/255.0f, 32.0f/255.0f, 1.0f);
+		private readonly static Color GizmosColor = new(206.0f/255.0f, 136.0f/255.0f, 48.0f/255.0f, 0.5f);
+		private readonly static Color GizmosColorSelected = new(235.0f/255.0f, 123.0f/255.0f, 32.0f/255.0f, 1.0f);
 
 		public virtual void OnDrawGizmosSelected () {
 			OnDrawGizmos(true);

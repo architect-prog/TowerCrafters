@@ -32,14 +32,14 @@ namespace Pathfinding {
 		/// </summary>
 		public Color[] _AreaColors;
 
-		public static Color SolidColor = new Color(30/255f, 102/255f, 201/255f, 0.9F);
-		public static Color UnwalkableNode = new Color(1, 0, 0, 0.5F);
-		public static Color BoundsHandles = new Color(0.29F, 0.454F, 0.741F, 0.9F);
+		public static Color SolidColor = new(30/255f, 102/255f, 201/255f, 0.9F);
+		public static Color UnwalkableNode = new(1, 0, 0, 0.5F);
+		public static Color BoundsHandles = new(0.29F, 0.454F, 0.741F, 0.9F);
 
-		public static Color ConnectionLowLerp = new Color(0, 1, 0, 0.5F);
-		public static Color ConnectionHighLerp = new Color(1, 0, 0, 0.5F);
+		public static Color ConnectionLowLerp = new(0, 1, 0, 0.5F);
+		public static Color ConnectionHighLerp = new(1, 0, 0, 0.5F);
 
-		public static Color MeshEdgeColor = new Color(0, 0, 0, 0.5F);
+		public static Color MeshEdgeColor = new(0, 0, 0, 0.5F);
 
 		private static Color[] AreaColors = new Color[1];
 

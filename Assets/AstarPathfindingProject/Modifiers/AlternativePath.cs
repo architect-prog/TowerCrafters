@@ -33,13 +33,13 @@ namespace Pathfinding {
 		public int randomStep = 10;
 
 		/// <summary>The previous path</summary>
-		List<GraphNode> prevNodes = new List<GraphNode>();
+		List<GraphNode> prevNodes = new();
 
 		/// <summary>The previous penalty used. Stored just in case it changes during operation</summary>
 		int prevPenalty;
 
 		/// <summary>A random object</summary>
-		readonly System.Random rnd = new System.Random();
+		readonly System.Random rnd = new();
 
 		bool destroyed;
 

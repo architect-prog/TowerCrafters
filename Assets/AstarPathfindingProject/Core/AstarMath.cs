@@ -1408,7 +1408,7 @@ namespace Pathfinding {
 		}
 
 		/// <summary>Cached dictionary to avoid excessive allocations</summary>
-		static readonly Dictionary<Int3, int> cached_Int3_int_dict = new Dictionary<Int3, int>();
+		static readonly Dictionary<Int3, int> cached_Int3_int_dict = new();
 
 		/// <summary>
 		/// Compress the mesh by removing duplicate vertices.

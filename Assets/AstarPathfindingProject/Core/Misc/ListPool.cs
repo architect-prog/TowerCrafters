@@ -25,11 +25,11 @@ namespace Pathfinding.Util {
 	/// </summary>
 	public static class ListPool<T> {
 		/// <summary>Internal pool</summary>
-		static readonly List<List<T> > pool = new List<List<T> >();
+		static readonly List<List<T> > pool = new();
 
 #if !ASTAR_NO_POOLING
-		static readonly List<List<T> > largePool = new List<List<T> >();
-		static readonly HashSet<List<T> > inPool = new HashSet<List<T> >();
+		static readonly List<List<T> > largePool = new();
+		static readonly HashSet<List<T> > inPool = new();
 #endif
 
 		/// <summary>

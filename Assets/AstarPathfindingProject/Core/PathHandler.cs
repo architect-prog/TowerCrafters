@@ -121,7 +121,7 @@ namespace Pathfinding {
 		/// Binary heap to keep track of nodes on the "Open list".
 		/// See: https://en.wikipedia.org/wiki/A*_search_algorithm
 		/// </summary>
-		public readonly BinaryHeap heap = new BinaryHeap(128);
+		public readonly BinaryHeap heap = new(128);
 
 		/// <summary>ID for the path currently being calculated or last path that was calculated</summary>
 		public ushort PathID { get { return pathID; } }
@@ -133,7 +133,7 @@ namespace Pathfinding {
 		/// StringBuilder that paths can use to build debug strings.
 		/// Better for performance and memory usage to use a single StringBuilder instead of each path creating its own
 		/// </summary>
-		public readonly System.Text.StringBuilder DebugStringBuilder = new System.Text.StringBuilder();
+		public readonly System.Text.StringBuilder DebugStringBuilder = new();
 
 		public PathHandler (int threadID, int totalThreadCount) {
 			this.threadID = threadID;

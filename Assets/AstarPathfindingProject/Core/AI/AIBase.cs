@@ -72,7 +72,7 @@ namespace Pathfinding {
 		/// If set to (NaN,NaN,NaN) then Physics.Gravity (configured in the Unity project settings) will be used.
 		/// If set to (0,0,0) then no gravity will be used and no raycast to check for ground penetration will be performed.
 		/// </summary>
-		public Vector3 gravity = new Vector3(float.NaN, float.NaN, float.NaN);
+		public Vector3 gravity = new(float.NaN, float.NaN, float.NaN);
 
 		/// <summary>
 		/// Layer mask to use for ground placement.
@@ -251,7 +251,7 @@ namespace Pathfinding {
 		/// Determines how the agent recalculates its path automatically.
 		/// This corresponds to the settings under the "Recalculate Paths Automatically" field in the inspector.
 		/// </summary>
-		public AutoRepathPolicy autoRepath = new AutoRepathPolicy();
+		public AutoRepathPolicy autoRepath = new();
 
 		/// <summary>Indicates if gravity is used during this frame</summary>
 		protected bool usingGravity { get; set; }
@@ -722,7 +722,7 @@ namespace Pathfinding {
 			if (Application.isPlaying) FindComponents();
 		}
 
-		public static readonly Color ShapeGizmoColor = new Color(240/255f, 213/255f, 30/255f);
+		public static readonly Color ShapeGizmoColor = new(240/255f, 213/255f, 30/255f);
 
 		protected virtual void OnDrawGizmos () {
 			if (!Application.isPlaying || !enabled) FindComponents();

@@ -19,7 +19,7 @@ namespace Pathfinding.Examples {
 			base.Awake();
 			// Set the traversal provider to block all nodes that are blocked by a SingleNodeBlocker
 			// except the SingleNodeBlocker owned by this AI (we don't want to be blocked by ourself)
-			traversalProvider = new BlockManager.TraversalProvider(blockManager, BlockManager.BlockMode.AllExceptSelector, new List<SingleNodeBlocker>() { blocker });
+			traversalProvider = new BlockManager.TraversalProvider(blockManager, BlockManager.BlockMode.AllExceptSelector, new List<SingleNodeBlocker> { blocker });
 		}
 	}
 }

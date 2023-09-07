@@ -69,16 +69,16 @@ namespace Pathfinding {
 
 		System.Action<GraphNode> connectionCallback;
 
-		Queue<GraphNode> temporaryQueue = new Queue<GraphNode>();
+		Queue<GraphNode> temporaryQueue = new();
 		List<GraphNode> currentChildren = null;
 		List<int> currentConnections = null;
 		int currentHierarchicalNodeIndex;
-		Stack<int> temporaryStack = new Stack<int>();
+		Stack<int> temporaryStack = new();
 
 		int numDirtyNodes = 0;
 		GraphNode[] dirtyNodes = new GraphNode[128];
 
-		Stack<int> freeNodeIndices = new Stack<int>();
+		Stack<int> freeNodeIndices = new();
 
 		int gizmoVersion = 0;
 

@@ -41,7 +41,7 @@ namespace Pathfinding.Util {
 		static readonly Stack<T[]>[] pool = new Stack<T[]>[31];
 		static readonly Stack<T[]>[] exactPool = new Stack<T[]>[MaximumExactArrayLength+1];
 #if !ASTAR_OPTIMIZE_POOLING
-		static readonly HashSet<T[]> inPool = new HashSet<T[]>();
+		static readonly HashSet<T[]> inPool = new();
 #endif
 #endif
 

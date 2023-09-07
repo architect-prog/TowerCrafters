@@ -1,3 +1,5 @@
+//#define CHECK_UPDATES
+
 using UnityEngine;
 using UnityEditor;
 #if UNITY_2018_1_OR_NEWER
@@ -95,7 +97,8 @@ namespace Pathfinding {
 		/// Holds various URLs and text for the editor.
 		/// This info can be updated when a check for new versions is done to ensure that there are no invalid links.
 		/// </summary>
-		static Dictionary<string, string> astarServerData = new Dictionary<string, string> {
+		static Dictionary<string, string> astarServerData = new()
+		{
 			{ "URL:modifiers", "http://www.arongranberg.com/astar/docs/modifiers.php" },
 			{ "URL:astarpro", "http://arongranberg.com/unity/a-pathfinding/astarpro/" },
 			{ "URL:documentation", "http://arongranberg.com/astar/docs/" },
@@ -147,10 +150,12 @@ namespace Pathfinding {
 		/// Should be called from EditorApplication.update
 		/// </summary>
 		static void UpdateCheckLoop () {
+			#if CHECK_UPDATES
 			// Go on until the update check has been completed
 			if (!CheckForUpdates()) {
 				EditorApplication.update -= UpdateCheckLoop;
 			}
+			#endif
 		}
 
 		/// <summary>

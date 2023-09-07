@@ -3,8 +3,8 @@ using UnityEngine;
 namespace Pathfinding.Util {
 	/// <summary>Helper methods for drawing gizmos and debug lines</summary>
 	public class Draw {
-		public static readonly Draw Debug = new Draw { gizmos = false };
-		public static readonly Draw Gizmos = new Draw { gizmos = true };
+		public static readonly Draw Debug = new() { gizmos = false };
+		public static readonly Draw Gizmos = new() { gizmos = true };
 
 		bool gizmos;
 		Matrix4x4 matrix = Matrix4x4.identity;

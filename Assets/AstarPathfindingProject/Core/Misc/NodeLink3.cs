@@ -44,7 +44,7 @@ namespace Pathfinding {
 	[AddComponentMenu("Pathfinding/Link3")]
 	[HelpURL("http://arongranberg.com/astar/docs/class_pathfinding_1_1_node_link3.php")]
 	public class NodeLink3 : GraphModifier {
-		protected static Dictionary<GraphNode, NodeLink3> reference = new Dictionary<GraphNode, NodeLink3>();
+		protected static Dictionary<GraphNode, NodeLink3> reference = new();
 		public static NodeLink3 GetNodeLink (GraphNode node) {
 			NodeLink3 v;
 
@@ -279,8 +279,8 @@ namespace Pathfinding {
 			}
 		}
 
-		private readonly static Color GizmosColor = new Color(206.0f/255.0f, 136.0f/255.0f, 48.0f/255.0f, 0.5f);
-		private readonly static Color GizmosColorSelected = new Color(235.0f/255.0f, 123.0f/255.0f, 32.0f/255.0f, 1.0f);
+		private readonly static Color GizmosColor = new(206.0f/255.0f, 136.0f/255.0f, 48.0f/255.0f, 0.5f);
+		private readonly static Color GizmosColorSelected = new(235.0f/255.0f, 123.0f/255.0f, 32.0f/255.0f, 1.0f);
 
 		public virtual void OnDrawGizmosSelected () {
 			OnDrawGizmos(true);

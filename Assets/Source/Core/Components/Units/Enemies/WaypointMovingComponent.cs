@@ -1,4 +1,5 @@
-﻿using Source.Common.AI.Interfaces;
+﻿using System.Collections.Generic;
+using Source.Common.AI.Interfaces;
 using Source.Common.DI;
 using Source.Common.Editor;
 using Source.Core.Components.Units.Common;
@@ -21,6 +22,7 @@ namespace Source.Core.Components.Units.Enemies
         private IRotatingComponent rotating;
 
         public GameObject Target => target.gameObject;
+        public IEnumerable<GameObject> Targets { get; }
 
         [Construct]
         public void Construct(IRotatingComponent rotatingComponent)

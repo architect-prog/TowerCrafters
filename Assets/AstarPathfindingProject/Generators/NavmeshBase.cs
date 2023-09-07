@@ -5,7 +5,6 @@ using UnityEngine.Profiling;
 #endif
 
 namespace Pathfinding {
-	using System.IO;
 	using Pathfinding.Util;
 	using Pathfinding.Serialization;
 	using Math = System.Math;
@@ -29,7 +28,7 @@ namespace Pathfinding {
 
 		/// <summary>Size of the bounding box.</summary>
 		[JsonMember]
-		public Vector3 forcedBoundsSize = new Vector3(100, 40, 100);
+		public Vector3 forcedBoundsSize = new(100, 40, 100);
 
 		/// <summary>Size of a tile in world units along the X axis</summary>
 		public abstract float TileWorldSizeX { get; }
@@ -99,16 +98,16 @@ namespace Pathfinding {
 		bool batchTileUpdate;
 
 		/// <summary>List of tiles updating during batch</summary>
-		List<int> batchUpdatedTiles = new List<int>();
+		List<int> batchUpdatedTiles = new();
 
 		/// <summary>List of nodes that are going to be destroyed as part of a batch update</summary>
-		List<MeshNode> batchNodesToDestroy = new List<MeshNode>();
+		List<MeshNode> batchNodesToDestroy = new();
 
 		/// <summary>
 		/// Determines how the graph transforms graph space to world space.
 		/// See: <see cref="CalculateTransform"/>
 		/// </summary>
-		public GraphTransform transform = new GraphTransform(Matrix4x4.identity);
+		public GraphTransform transform = new(Matrix4x4.identity);
 
 		GraphTransform ITransformedGraph.transform { get { return transform; } }
 
@@ -446,7 +445,7 @@ namespace Pathfinding {
 		}
 
 
-		static readonly NNConstraint NNConstraintDistanceXZ = new NNConstraint { distanceXZ = true };
+		static readonly NNConstraint NNConstraintDistanceXZ = new() { distanceXZ = true };
 
 		public override NNInfoInternal GetNearest (Vector3 position, NNConstraint constraint, GraphNode hint) {
 			return GetNearestForce(position, constraint != null && constraint.distanceXZ ? NNConstraintDistanceXZ : null);
@@ -845,7 +844,7 @@ namespace Pathfinding {
 		}
 
 		/// <summary>Temporary buffer used in <see cref="PrepareNodeRecycling"/></summary>
-		Dictionary<int, int> nodeRecyclingHashBuffer = new Dictionary<int, int>();
+		Dictionary<int, int> nodeRecyclingHashBuffer = new();
 
 		/// <summary>
 		/// Reuse nodes that keep the exact same vertices after a tile replacement.

@@ -10,11 +10,11 @@ namespace Pathfinding {
 	public class EditorBase : Editor {
 		static System.Collections.Generic.Dictionary<string, string> cachedTooltips;
 		static System.Collections.Generic.Dictionary<string, string> cachedURLs;
-		Dictionary<string, SerializedProperty> props = new Dictionary<string, SerializedProperty>();
-		Dictionary<string, string> localTooltips = new Dictionary<string, string>();
+		Dictionary<string, SerializedProperty> props = new();
+		Dictionary<string, string> localTooltips = new();
 
-		static GUIContent content = new GUIContent();
-		static GUIContent showInDocContent = new GUIContent("Show in online documentation", "");
+		static GUIContent content = new();
+		static GUIContent showInDocContent = new("Show in online documentation", "");
 		static GUILayoutOption[] noOptions = new GUILayoutOption[0];
 		public static System.Func<string> getDocumentationURL;
 

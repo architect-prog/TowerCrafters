@@ -32,7 +32,7 @@ namespace Source.UI.Controllers
                 var inputPosition = Mouse.current.position.ReadValue();
                 var worldPosition = Camera.main.ScreenToWorldPoint(inputPosition);
 
-                abilityExecutor.Execute(lightningRay, new AbilityExecutingData()
+                abilityExecutor.Execute(lightningRay, new AbilityExecutingData
                 {
                     CastPosition = worldPosition
                 });

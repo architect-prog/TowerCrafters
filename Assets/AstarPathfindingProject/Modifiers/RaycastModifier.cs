@@ -111,11 +111,11 @@ namespace Pathfinding {
 		}
 
 		static readonly int[] iterationsByQuality = new [] { 1, 2, 1, 3 };
-		static List<Vector3> buffer = new List<Vector3>();
+		static List<Vector3> buffer = new();
 		static float[] DPCosts = new float[16];
 		static int[] DPParents = new int[16];
 
-		Filter cachedFilter = new Filter();
+		Filter cachedFilter = new();
 
 		NNConstraint cachedNNConstraint = NNConstraint.None;
 

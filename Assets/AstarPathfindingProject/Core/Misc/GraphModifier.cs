@@ -24,7 +24,7 @@ namespace Pathfinding {
 		protected ulong uniqueID;
 
 		/// <summary>Maps persistent IDs to the component that uses it</summary>
-		protected static Dictionary<ulong, GraphModifier> usedIDs = new Dictionary<ulong, GraphModifier>();
+		protected static Dictionary<ulong, GraphModifier> usedIDs = new();
 
 		protected static List<T> GetModifiersOfType<T>() where T : GraphModifier {
 			var current = root;

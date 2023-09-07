@@ -48,9 +48,9 @@ namespace Pathfinding {
 		/// To avoid trashing a lot of memory structures when nodes are
 		/// frequently deleted and created, node indices are reused.
 		/// </summary>
-		readonly Stack<int> nodeIndexPool = new Stack<int>();
+		readonly Stack<int> nodeIndexPool = new();
 
-		readonly List<int> locks = new List<int>();
+		readonly List<int> locks = new();
 		int nextLockID = 0;
 
 #if UNITY_2017_3_OR_NEWER

@@ -5,8 +5,8 @@ namespace Pathfinding {
 	[CustomGraphEditor(typeof(PointGraph), "Point Graph")]
 	public class PointGraphEditor : GraphEditor {
 		static readonly GUIContent[] nearestNodeDistanceModeLabels = {
-			new GUIContent("Node"),
-			new GUIContent("Connection (pro version only)"),
+			new("Node"),
+			new("Connection (pro version only)"),
 		};
 
 		public override void OnInspectorGUI (NavGraph target) {

@@ -71,7 +71,7 @@ namespace Pathfinding {
 		/// Determines how the agent recalculates its path automatically.
 		/// This corresponds to the settings under the "Recalculate Paths Automatically" field in the inspector.
 		/// </summary>
-		public AutoRepathPolicy autoRepath = new AutoRepathPolicy();
+		public AutoRepathPolicy autoRepath = new();
 
 		/// <summary>\copydoc Pathfinding::IAstarAI::canMove</summary>
 		public bool canMove = true;
@@ -312,7 +312,7 @@ namespace Pathfinding {
 		/// </summary>
 		protected float pathSwitchInterpolationTime = 0;
 
-		protected PathInterpolator interpolator = new PathInterpolator();
+		protected PathInterpolator interpolator = new();
 
 
 		/// <summary>

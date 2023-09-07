@@ -18,8 +18,8 @@ namespace Pathfinding {
 
 		int numNodes = 0;
 
-		readonly List<GraphNode> largeList = new List<GraphNode>();
-		readonly Stack<GraphNode[]> arrayCache = new Stack<GraphNode[]>();
+		readonly List<GraphNode> largeList = new();
+		readonly Stack<GraphNode[]> arrayCache = new();
 		static readonly IComparer<GraphNode>[] comparers = new IComparer<GraphNode>[] { new CompareX(), new CompareY(), new CompareZ() };
 
 		struct Node {

@@ -26,7 +26,7 @@ using Thread = System.Threading.Thread;
 [HelpURL("http://arongranberg.com/astar/docs/class_astar_path.php")]
 public class AstarPath : VersionedMonoBehaviour {
 	/// <summary>The version number for the A* %Pathfinding Project</summary>
-	public static readonly System.Version Version = new System.Version(4, 2, 17);
+	public static readonly System.Version Version = new(4, 2, 17);
 
 	/// <summary>Information about where the package was downloaded</summary>
 	public enum AstarDistribution { WebsiteDownload, AssetStore, PackageManager };
@@ -583,13 +583,13 @@ public class AstarPath : VersionedMonoBehaviour {
 	readonly GraphUpdateProcessor graphUpdates;
 
 	/// <summary>Holds a hierarchical graph to speed up some queries like if there is a path between two nodes</summary>
-	internal readonly HierarchicalGraph hierarchicalGraph = new HierarchicalGraph();
+	internal readonly HierarchicalGraph hierarchicalGraph = new();
 
 	/// <summary>
 	/// Handles navmesh cuts.
 	/// See: <see cref="Pathfinding.NavmeshCut"/>
 	/// </summary>
-	public readonly NavmeshUpdates navmeshUpdates = new NavmeshUpdates();
+	public readonly NavmeshUpdates navmeshUpdates = new();
 
 	/// <summary>Processes work items</summary>
 	readonly WorkItemProcessor workItems;
@@ -618,7 +618,7 @@ public class AstarPath : VersionedMonoBehaviour {
 	/// Holds settings for heuristic optimization.
 	/// See: heuristic-opt (view in online documentation for working links)
 	/// </summary>
-	public EuclideanEmbedding euclideanEmbedding = new EuclideanEmbedding();
+	public EuclideanEmbedding euclideanEmbedding = new();
 
 	#endregion
 
@@ -748,7 +748,7 @@ public class AstarPath : VersionedMonoBehaviour {
 		if (debugRoof-debugFloor < 1) debugRoof += 1;
 	}
 
-	Pathfinding.Util.RetainedGizmos gizmos = new Pathfinding.Util.RetainedGizmos();
+	Pathfinding.Util.RetainedGizmos gizmos = new();
 
 	/// <summary>Calls OnDrawGizmos on graph generators</summary>
 	private void OnDrawGizmos () {

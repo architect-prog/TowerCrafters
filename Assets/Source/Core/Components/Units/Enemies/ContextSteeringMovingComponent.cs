@@ -1,5 +1,7 @@
 ﻿using System;
-using Pathfinding;
+using System.Collections.Generic;
+using System.Linq;
+using Source.Common.AI;
 using Source.Common.AI.Interfaces;
 using Source.Common.DI;
 using Source.Core.Components.Units.Characters;
@@ -9,45 +11,38 @@ using UnityEngine;
 
 namespace Source.Core.Components.Units.Enemies
 {
-    [RequireComponent(typeof(Seeker))]
-    public class PathfinderMovingComponent :
+    public class ContextSteeringMovingComponent :
         MovingComponent,
         ITargetMovingComponent,
         ITargetProvider
     {
-        [SerializeField] private float targetChangeDistance;
+        [SerializeField] private MultiTargetSensor obstacleSensor;
 
-        private Path path;
-        private Seeker seeker;
         private Character character;
         private IRotatingComponent rotating;
 
-        private int currentWaypoint;
-        private Vector2 startPosition;
+        private float scanningRadius = 2f;
+        private float targetReachDistance = 0.2f;
+        private bool targetReached = false;
+        private float[] interestWeights = new float[8];
+        private float[] dangerWeights = new float[8];
+        private Collider2D[] obstacles = Array.Empty<Collider2D>();
+        private Vector2 resultDirection = Vector2.zero;
+        private List<Vector2> contactPoints = new();
 
         public GameObject Target => character.gameObject;
+        public IEnumerable<GameObject> Targets { get; }
 
         [Construct]
         public void Construct(IRotatingComponent rotatingComponent)
         {
             rotating = rotatingComponent;
-            seeker = GetComponent<Seeker>();
             character = FindFirstObjectByType<Character>();
 
-            InvokeRepeating(nameof(CalculatePath), 0, 0.5f);
-        }
-
-        private void CalculatePath()
-        {
-            seeker.StartPath(transform.position, character.transform.position, (calculatedPath) =>
+            obstacleSensor.targetsChanged += targets =>
             {
-                if (!calculatedPath.error)
-                {
-                    path = calculatedPath;
-                    startPosition = transform.position;
-                    currentWaypoint = 0;
-                }
-            });
+                obstacles = targets.Select(x => x.GetComponent<Collider2D>()).ToArray();
+            };
         }
 
         public void Move()
@@ -55,72 +50,113 @@ namespace Source.Core.Components.Units.Enemies
             if (!character)
                 return;
 
-            if (path is null || path.vectorPath.Count <= currentWaypoint)
-                return;
-
-            var target = path.vectorPath[currentWaypoint];
-            var nextTarget = path.vectorPath.Count <= currentWaypoint + 1
-                ? path.vectorPath[currentWaypoint + 1]
-                : Vector3.zero;
-
-            var currentPosition = transform.position;
-            if (nextTarget != Vector3.zero)
+            for (var i = 0; i < interestWeights.Length; i++)
             {
-               var points = GetSomething(startPosition, target, nextTarget);
-               target = points[1];
+                dangerWeights[i] = 0;
+                interestWeights[i] = 0;
             }
-            Debug.DrawLine(currentPosition, target, Color.cyan);
 
-            var movementDirection = target - currentPosition;
+            contactPoints.Clear();
+
+            var currentPosition = (Vector2) transform.position;
+            var targetPosition = (Vector2) character.transform.position;
+
+            foreach (var obstacle in obstacles)
+            {
+                var obstacleDirection = obstacle.ClosestPoint(currentPosition) - currentPosition;
+                contactPoints.Add(obstacleDirection);
+
+                var distanceToObstacle = obstacleDirection.magnitude;
+
+                var weight = distanceToObstacle <= scanningRadius
+                    ? 1
+                    : (scanningRadius - distanceToObstacle) / scanningRadius;
+
+                var normalizedDirectionToObstacle = obstacleDirection.normalized;
+
+                for (var i = 0; i < directions.Length; i++)
+                {
+                    var result = Vector2.Dot(normalizedDirectionToObstacle, directions[i]);
+
+                    var valueToPutIn = result * weight;
+                    if (valueToPutIn > dangerWeights[i])
+                    {
+                        dangerWeights[i] = valueToPutIn;
+                    }
+                }
+            }
+
+            if (Vector2.Distance(transform.position, targetPosition) < targetReachDistance)
+            {
+                targetReached = true;
+            }
+
+            var directionToTarget = targetPosition - currentPosition;
+            for (var i = 0; i < interestWeights.Length; i++)
+            {
+                var result = Vector2.Dot(directionToTarget.normalized, directions[i]);
+
+                //accept only directions at the less than 90 degrees to the target direction
+                if (result > 0)
+                {
+                    var valueToPutIn = result;
+                    if (valueToPutIn > interestWeights[i])
+                    {
+                        interestWeights[i] = valueToPutIn;
+                    }
+                }
+            }
+
+            for (var i = 0; i < 8; i++)
+            {
+                interestWeights[i] = Mathf.Clamp01(interestWeights[i] - dangerWeights[i]);
+            }
+
+            var outputDirection = Vector2.zero;
+            for (var i = 0; i < 8; i++)
+            {
+                outputDirection += directions[i] * interestWeights[i];
+            }
+
+            resultDirection = outputDirection.normalized;
+
+            var movementDirection = resultDirection;
             Move(movementDirection);
             rotating.Rotate(movementDirection);
-
-            if (Vector2.Distance(currentPosition, path.vectorPath[currentWaypoint]) <= targetChangeDistance)
-            {
-                currentWaypoint++;
-            }
         }
 
-
-        // private void OnDrawGizmos()
-        // {
-        //     var start1 = new Vector2(1, 5);
-        //     var end1 = new Vector2(2, 6);
-        //     var start2 = new Vector2(2, 6);
-        //     var end2 = new Vector2(1, 8);
-        //
-        //     Gizmos.color = Color.blue;
-        //     Gizmos.DrawLine(start1, end1);
-        //     Gizmos.DrawSphere(end1, 0.2f);
-        //     Gizmos.DrawLine(start2, end2);
-        //     Gizmos.color = Color.magenta;
-        //
-        //     var something = GetSomething(start1, end1, end2);
-        //     for (var i = 0; i < something.Length - 1; i++)
-        //     {
-        //         Gizmos.DrawLine(something[i], something[i + 1]);
-        //     }
-        // }
-
-        private Vector2 QuadraticBezierCurves(Vector2 start, Vector2 middle, Vector2 end,  float x)
+        private void OnDrawGizmos()
         {
-            x = Mathf.Clamp01(x);
-            var result = Mathf.Pow(1 - x, 2) * start + 2 * (1 - x) * x * middle + x * x * end;
-            return result;
-        }
+            Gizmos.color = Color.green;
 
-        private Vector2[] GetSomething(Vector2 start, Vector2 middle, Vector2 end)
-        {
-            var numOfSubs = 4;
-            var result = new Vector2[numOfSubs];
-
-            for (var i = 0; i < numOfSubs; i++)
+            var currentPosition = (Vector2) transform.position;
+            for (var i = 0; i < directions.Length; i++)
             {
-                var x = (float) i / numOfSubs;
-                result[i] = QuadraticBezierCurves(start, middle, end, x);
+                var first = currentPosition + directions[i].normalized * interestWeights[i];
+                var second = currentPosition + 2 * directions[i].normalized * interestWeights[i];
+                Gizmos.DrawLine(first, second);
             }
 
-            return result;
+            Gizmos.color = Color.red;
+            foreach (var point in contactPoints)
+            {
+                Gizmos.DrawSphere((Vector2)transform.position + point, 0.5f);
+            }
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawRay(transform.position, resultDirection * 2);
         }
+
+        private static readonly Vector2[] directions =
+        {
+            new(1, 1),
+            new(-1, 1),
+            new(1, -1),
+            new(-1, -1),
+            Vector2.down,
+            Vector2.up,
+            Vector2.right,
+            Vector2.left,
+        };
     }
 }

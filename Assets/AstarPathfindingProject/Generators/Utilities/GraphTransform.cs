@@ -44,7 +44,7 @@ namespace Pathfinding.Util {
 		readonly Quaternion rotation;
 		readonly Quaternion inverseRotation;
 
-		public static readonly GraphTransform identityTransform = new GraphTransform(Matrix4x4.identity);
+		public static readonly GraphTransform identityTransform = new(Matrix4x4.identity);
 
 		public GraphTransform (Matrix4x4 matrix) {
 			this.matrix = matrix;

@@ -7,7 +7,7 @@ namespace Pathfinding {
 	[CanEditMultipleObjects]
 	public class SeekerEditor : EditorBase {
 		static bool tagPenaltiesOpen;
-		static List<Seeker> scripts = new List<Seeker>();
+		static List<Seeker> scripts = new();
 
 		GUIContent[] exactnessLabels = new [] { new GUIContent("Node Center (Snap To Node)"), new GUIContent("Original"), new GUIContent("Interpolate (deprecated)"), new GUIContent("Closest On Node Surface"), new GUIContent("Node Connection") };
 		string[] graphLabels = new string[32];

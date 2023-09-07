@@ -58,7 +58,7 @@ namespace Pathfinding {
 		/// <summary>If true the sensitivity will be visualized as a circle in the scene view when the game is playing</summary>
 		public bool visualizeSensitivity = false;
 
-		Vector3 lastDestination = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
+		Vector3 lastDestination = new(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
 		float lastRepathTime = float.NegativeInfinity;
 
 		/// <summary>True if the path should be recalculated according to the policy</summary>

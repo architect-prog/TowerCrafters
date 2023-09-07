@@ -16,7 +16,7 @@ namespace Pathfinding {
 	[HelpURL("http://arongranberg.com/astar/docs/class_pathfinding_1_1_block_manager.php")]
 	public class BlockManager : VersionedMonoBehaviour {
 		/// <summary>Contains info on which SingleNodeBlocker objects have blocked a particular node</summary>
-		Dictionary<GraphNode, List<SingleNodeBlocker> > blocked = new Dictionary<GraphNode, List<SingleNodeBlocker> >();
+		Dictionary<GraphNode, List<SingleNodeBlocker> > blocked = new();
 
 		public enum BlockMode {
 			/// <summary>All blockers except those in the TraversalProvider.selector list will block</summary>

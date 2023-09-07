@@ -206,10 +206,10 @@ namespace Pathfinding.Serialization {
 		/// </summary>
 		private uint checksum = 0xffffffff;
 
-		System.Text.UTF8Encoding encoding = new System.Text.UTF8Encoding();
+		System.Text.UTF8Encoding encoding = new();
 
 		/// <summary>Cached StringBuilder to avoid excessive allocations</summary>
-		static System.Text.StringBuilder _stringBuilder = new System.Text.StringBuilder();
+		static System.Text.StringBuilder _stringBuilder = new();
 
 		/// <summary>
 		/// Returns a cached StringBuilder.
@@ -219,13 +219,13 @@ namespace Pathfinding.Serialization {
 		static System.Text.StringBuilder GetStringBuilder () { _stringBuilder.Length = 0; return _stringBuilder; }
 
 		/// <summary>Cached version object for 3.8.3</summary>
-		public static readonly System.Version V3_8_3 = new System.Version(3, 8, 3);
+		public static readonly System.Version V3_8_3 = new(3, 8, 3);
 
 		/// <summary>Cached version object for 3.9.0</summary>
-		public static readonly System.Version V3_9_0 = new System.Version(3, 9, 0);
+		public static readonly System.Version V3_9_0 = new(3, 9, 0);
 
 		/// <summary>Cached version object for 4.1.0</summary>
-		public static readonly System.Version V4_1_0 = new System.Version(4, 1, 0);
+		public static readonly System.Version V4_1_0 = new(4, 1, 0);
 
 		public AstarSerializer (AstarData data, GameObject contextRoot) : this(data, SerializeSettings.Settings, contextRoot) {
 		}

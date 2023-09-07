@@ -10,8 +10,8 @@ namespace Pathfinding {
 		int selectedPoint = -1;
 
 		const float pointGizmosRadius = 0.09F;
-		static Color PointColor = new Color(1, 0.36F, 0, 0.6F);
-		static Color PointSelectedColor = new Color(1, 0.24F, 0, 1.0F);
+		static Color PointColor = new(1, 0.36F, 0, 0.6F);
+		static Color PointSelectedColor = new(1, 0.24F, 0, 1.0F);
 
 		GraphUpdateScene[] scripts;
 

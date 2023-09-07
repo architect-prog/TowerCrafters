@@ -64,7 +64,7 @@ namespace Pathfinding {
 
 		/// <summary>Returns the state of the path in the pathfinding pipeline</summary>
 		public PathState PipelineState { get; private set; }
-		System.Object stateLock = new object();
+		System.Object stateLock = new();
 
 		/// <summary>
 		/// Provides additional traversal information to a path request.
@@ -554,7 +554,7 @@ namespace Pathfinding {
 		}
 
 		/// <summary>List of claims on this path with reference objects</summary>
-		private List<System.Object> claimed = new List<System.Object>();
+		private List<System.Object> claimed = new();
 
 		/// <summary>
 		/// True if the path has been released with a non-silent call yet.

@@ -6,7 +6,7 @@ namespace Pathfinding {
 	[CustomEditor(typeof(AstarPath))]
 	public class AstarPathEditor : Editor {
 		/// <summary>List of all graph editors available (e.g GridGraphEditor)</summary>
-		static Dictionary<string, CustomGraphEditorAttribute> graphEditorTypes = new Dictionary<string, CustomGraphEditorAttribute>();
+		static Dictionary<string, CustomGraphEditorAttribute> graphEditorTypes = new();
 
 		/// <summary>
 		/// Holds node counts for each graph to avoid calculating it every frame.

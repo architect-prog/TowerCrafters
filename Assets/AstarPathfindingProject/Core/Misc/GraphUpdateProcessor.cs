@@ -39,22 +39,22 @@ namespace Pathfinding {
 		/// Queue containing all waiting graph update queries. Add to this queue by using \link AddToQueue \endlink.
 		/// See: AddToQueue
 		/// </summary>
-		readonly Queue<GraphUpdateObject> graphUpdateQueue = new Queue<GraphUpdateObject>();
+		readonly Queue<GraphUpdateObject> graphUpdateQueue = new();
 
 		/// <summary>Queue of all async graph updates waiting to be executed</summary>
-		readonly Queue<GUOSingle> graphUpdateQueueAsync = new Queue<GUOSingle>();
+		readonly Queue<GUOSingle> graphUpdateQueueAsync = new();
 
 		/// <summary>Queue of all non-async graph update post events waiting to be executed</summary>
-		readonly Queue<GUOSingle> graphUpdateQueuePost = new Queue<GUOSingle>();
+		readonly Queue<GUOSingle> graphUpdateQueuePost = new();
 
 		/// <summary>Queue of all non-async graph updates waiting to be executed</summary>
-		readonly Queue<GUOSingle> graphUpdateQueueRegular = new Queue<GUOSingle>();
+		readonly Queue<GUOSingle> graphUpdateQueueRegular = new();
 
-		readonly System.Threading.ManualResetEvent asyncGraphUpdatesComplete = new System.Threading.ManualResetEvent(true);
+		readonly System.Threading.ManualResetEvent asyncGraphUpdatesComplete = new(true);
 
 #if !UNITY_WEBGL
-		readonly System.Threading.AutoResetEvent graphUpdateAsyncEvent = new System.Threading.AutoResetEvent(false);
-		readonly System.Threading.AutoResetEvent exitAsyncThread = new System.Threading.AutoResetEvent(false);
+		readonly System.Threading.AutoResetEvent graphUpdateAsyncEvent = new(false);
+		readonly System.Threading.AutoResetEvent exitAsyncThread = new(false);
 #endif
 
 		/// <summary>Returns if any graph updates are waiting to be applied</summary>

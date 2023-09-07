@@ -17,18 +17,21 @@ namespace Source.Common.Extensions
             return result;
         }
 
-        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> targets, Func<TSource, TKey> keySelector)
+        public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
             where TKey : IComparable<TKey>
         {
-            var targetArray = targets?.ToArray() ?? Array.Empty<TSource>();
-            if (!targetArray.Any())
-            {
-                return default;
-            }
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (keySelector == null)
+                throw new ArgumentNullException(nameof(keySelector));
 
-            var min = targetArray.FirstOrDefault();
+            var sourceArray = source.ToArray();
+            if (!sourceArray.Any())
+                return default;
+
+            var min = sourceArray.FirstOrDefault();
             var minKey = keySelector.Invoke(min);
-            foreach (var target in targetArray)
+            foreach (var target in sourceArray)
             {
                 var targetKey = keySelector.Invoke(target);
                 if (targetKey.CompareTo(minKey) < 0)
@@ -39,6 +42,33 @@ namespace Source.Common.Extensions
             }
 
             return min;
+        }
+
+        public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+            where TKey : IComparable<TKey>
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (keySelector == null)
+                throw new ArgumentNullException(nameof(keySelector));
+
+            var sourceArray = source.ToArray();
+            if (!sourceArray.Any())
+                return default;
+
+            var max = sourceArray.FirstOrDefault();
+            var maxKey = keySelector.Invoke(max);
+            foreach (var target in sourceArray)
+            {
+                var targetKey = keySelector.Invoke(target);
+                if (targetKey.CompareTo(maxKey) > 0)
+                {
+                    maxKey = targetKey;
+                    max = target;
+                }
+            }
+
+            return max;
         }
     }
 }

@@ -12,22 +12,17 @@ namespace Source.Common.AI
     public sealed class StateMachine : IStateMachine
     {
         private readonly MonoBehaviour owner;
-        private readonly List<Transition> anyTransitions;
-        private readonly Dictionary<Type, List<Transition>> transitions;
+        private readonly List<Transition> anyTransitions  = new();
+        private readonly Dictionary<Type, List<Transition>> transitions = new();
 
+        private bool working;
+        private Coroutine workingCoroutine;
         private IState currentState;
-        private Transition[] currentStateTransitions;
-
-        private bool isWorking;
-        private Coroutine coroutine;
+        private List<Transition> currentStateTransitions = new();
 
         public StateMachine(MonoBehaviour owner)
         {
             this.owner = owner;
-            anyTransitions = new List<Transition>();
-            transitions = new Dictionary<Type, List<Transition>>();
-
-            currentStateTransitions = Array.Empty<Transition>();
         }
 
         public StateMachine AddTransition(IState from, IState to, Func<bool> condition, int weight = 0)
@@ -35,13 +30,13 @@ namespace Source.Common.AI
             var fromStateType = from.GetType();
             var transition = new Transition(to, condition, weight);
 
-            if (!transitions.TryGetValue(fromStateType, out var stateTransitions))
+            if (!transitions.ContainsKey(fromStateType))
             {
-                stateTransitions = new List<Transition>();
-                transitions[fromStateType] = stateTransitions;
+                transitions.Add(fromStateType, new List<Transition>());
             }
 
-            stateTransitions.Add(transition);
+            transitions[fromStateType].Add(transition);
+
             return this;
         }
 
@@ -61,25 +56,25 @@ namespace Source.Common.AI
             state.Enter();
 
             currentState = state;
-            currentStateTransitions = GetStateTransitions(state)?.ToArray() ?? Array.Empty<Transition>();
+            currentStateTransitions = GetStateTransitions(state);
         }
 
         public void Start()
         {
-            isWorking = true;
-            coroutine ??= owner.StartCoroutine(Update());
+            working = true;
+            workingCoroutine ??= owner.StartCoroutine(Update());
         }
 
         public void Stop()
         {
-            isWorking = false;
-            owner.StopCoroutine(coroutine);
-            coroutine = null;
+            working = false;
+            owner.StopCoroutine(workingCoroutine);
+            workingCoroutine = null;
         }
 
         private IEnumerator Update()
         {
-            while (isWorking)
+            while (working)
             {
                 var nextState = GetNextStateOrDefault();
                 if (nextState is not null)
@@ -93,27 +88,25 @@ namespace Source.Common.AI
 
         private IState GetNextStateOrDefault()
         {
-            var result = currentStateTransitions.Where(x => x.Condition())
-                .MinBy(x => x.Weight);
+            if (!currentStateTransitions.Any())
+                return null;
+
+            var result = currentStateTransitions
+                .Where(x => x.Condition())
+                .MaxBy(x => x.Weight);
 
             return result?.To;
         }
 
-        private IEnumerable<Transition> GetStateTransitions(IState state)
+        private List<Transition> GetStateTransitions(IState state)
         {
             var stateType = state.GetType();
-            if (transitions.TryGetValue(stateType, out var stateTransitions))
-            {
-                foreach (var transition in stateTransitions)
-                {
-                    yield return transition;
-                }
-            }
+            var result = new List<Transition>(anyTransitions);
 
-            foreach (var transition in anyTransitions)
-            {
-                yield return transition;
-            }
+            if (transitions.TryGetValue(stateType, out var stateTransitions))
+                result.AddRange(stateTransitions);
+
+            return result;
         }
     }
 }

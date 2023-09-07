@@ -55,7 +55,7 @@ namespace Pathfinding {
 		public Font font = null;
 		public int fontSize = 12;
 
-		StringBuilder text = new StringBuilder();
+		StringBuilder text = new();
 		string cachedText;
 		float lastUpdate = -999;
 
@@ -114,7 +114,7 @@ namespace Pathfinding {
 		int maxNodePool = 0;
 
 		PathTypeDebug[] debugTypes = new PathTypeDebug[] {
-			new PathTypeDebug("ABPath", () => PathPool.GetSize(typeof(ABPath)), () => PathPool.GetTotalCreated(typeof(ABPath)))
+			new("ABPath", () => PathPool.GetSize(typeof(ABPath)), () => PathPool.GetTotalCreated(typeof(ABPath)))
 		};
 
 		struct PathTypeDebug {

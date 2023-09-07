@@ -82,9 +82,9 @@ namespace Pathfinding.Util {
 
 		/// <summary>Helper for drawing gizmos</summary>
 		public class Builder : IAstarPooledObject {
-			List<Vector3> lines = new List<Vector3>();
-			List<Color32> lineColors = new List<Color32>();
-			List<Mesh> meshes = new List<Mesh>();
+			List<Vector3> lines = new();
+			List<Color32> lineColors = new();
+			List<Mesh> meshes = new();
 
 			public void DrawMesh (RetainedGizmos gizmos, Vector3[] vertices, List<int> triangles, Color[] colors) {
 				var mesh = gizmos.GetMesh();
@@ -236,10 +236,10 @@ namespace Pathfinding.Util {
 			public bool lines;
 		}
 
-		List<MeshWithHash> meshes = new List<MeshWithHash>();
-		HashSet<ulong> usedHashes = new HashSet<ulong>();
-		HashSet<ulong> existingHashes = new HashSet<ulong>();
-		Stack<Mesh> cachedMeshes = new Stack<Mesh>();
+		List<MeshWithHash> meshes = new();
+		HashSet<ulong> usedHashes = new();
+		HashSet<ulong> existingHashes = new();
+		Stack<Mesh> cachedMeshes = new();
 
 		public GraphGizmoHelper GetSingleFrameGizmoHelper (AstarPath active) {
 			var uniqHash = new RetainedGizmos.Hasher();

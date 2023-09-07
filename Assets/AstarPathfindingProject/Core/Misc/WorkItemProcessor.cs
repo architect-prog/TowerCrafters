@@ -139,7 +139,7 @@ namespace Pathfinding {
 		public bool workItemsInProgressRightNow { get; private set; }
 
 		readonly AstarPath astar;
-		readonly IndexedQueue<AstarWorkItem> workItems = new IndexedQueue<AstarWorkItem>();
+		readonly IndexedQueue<AstarWorkItem> workItems = new();
 
 		/// <summary>True if any work items are queued right now</summary>
 		public bool anyQueued {

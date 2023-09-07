@@ -56,7 +56,7 @@ namespace Pathfinding {
 		bool prevEnabled;
 
 		float lastCheckTime = -9999;
-		Queue<GraphUpdateObject> pendingGraphUpdates = new Queue<GraphUpdateObject>();
+		Queue<GraphUpdateObject> pendingGraphUpdates = new();
 
 		Bounds bounds {
 			get {

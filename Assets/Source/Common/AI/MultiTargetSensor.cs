@@ -15,8 +15,8 @@ namespace Source.Common.AI
         private readonly List<GameObject> detectedTargets = new();
 
         public event Action<IEnumerable<GameObject>> targetsChanged;
-
         public GameObject Target => detectedTargets.FirstOrDefault();
+        public IEnumerable<GameObject> Targets => detectedTargets;
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -29,7 +29,7 @@ namespace Source.Common.AI
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (scanningMask.Includes(other.gameObject.layer))
+            if (detectedTargets.Contains(other.gameObject))
             {
                 detectedTargets.Remove(other.gameObject);
                 targetsChanged?.Invoke(detectedTargets);

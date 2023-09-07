@@ -6,7 +6,7 @@ namespace Pathfinding.Util {
 	public struct Guid {
 		const string hex = "0123456789ABCDEF";
 
-		public static readonly Guid zero = new Guid(new byte[16]);
+		public static readonly Guid zero = new(new byte[16]);
 		public static readonly string zeroString = new Guid(new byte[16]).ToString();
 
 		readonly ulong _a, _b;
@@ -116,7 +116,7 @@ namespace Pathfinding.Util {
 			return bytes;
 		}
 
-		private static System.Random random = new System.Random();
+		private static System.Random random = new();
 
 		public static Guid NewGuid () {
 			var bytes = new byte[16];

@@ -141,7 +141,7 @@ namespace Pathfinding {
 
 		//End Serialization Settings
 
-		List<bool> graphStructureLocked = new List<bool>();
+		List<bool> graphStructureLocked = new();
 
 		#endregion
 

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Pathfinding;
 using Source.Common.AI.Interfaces;
 using Source.Common.DI;
@@ -23,8 +23,10 @@ namespace Source.Core.Components.Units.Enemies
         private IRotatingComponent rotating;
 
         private int currentWaypoint;
+        private Vector2 startPosition;
 
         public GameObject Target => character.gameObject;
+        public IEnumerable<GameObject> Targets { get; }
 
         [Construct]
         public void Construct(IRotatingComponent rotatingComponent)
@@ -43,6 +45,7 @@ namespace Source.Core.Components.Units.Enemies
                 if (!calculatedPath.error)
                 {
                     path = calculatedPath;
+                    startPosition = transform.position;
                     currentWaypoint = 0;
                 }
             });
@@ -61,36 +64,44 @@ namespace Source.Core.Components.Units.Enemies
                 ? path.vectorPath[currentWaypoint + 1]
                 : Vector3.zero;
 
-            var movementDirection = target - transform.position;
+            var currentPosition = transform.position;
+            if (nextTarget != Vector3.zero)
+            {
+               var points = GetSomething(startPosition, target, nextTarget);
+               target = points[1];
+            }
+            Debug.DrawLine(currentPosition, target, Color.cyan);
+
+            var movementDirection = target - currentPosition;
             Move(movementDirection);
             rotating.Rotate(movementDirection);
 
-            if (Vector2.Distance(transform.position, path.vectorPath[currentWaypoint]) <= targetChangeDistance)
+            if (Vector2.Distance(currentPosition, path.vectorPath[currentWaypoint]) <= targetChangeDistance)
             {
                 currentWaypoint++;
             }
         }
 
 
-        private void OnDrawGizmos()
-        {
-            var start1 = new Vector2(1, 5);
-            var end1 = new Vector2(2, 6);
-            var start2 = new Vector2(2, 6);
-            var end2 = new Vector2(1, 8);
-
-            Gizmos.color = Color.blue;
-            Gizmos.DrawLine(start1, end1);
-            Gizmos.DrawSphere(end1, 0.2f);
-            Gizmos.DrawLine(start2, end2);
-            Gizmos.color = Color.magenta;
-
-            var something = GetSomething(start1, end1, end2);
-            for (var i = 0; i < something.Length - 1; i++)
-            {
-                Gizmos.DrawLine(something[i], something[i + 1]);
-            }
-        }
+        // private void OnDrawGizmos()
+        // {
+        //     var start1 = new Vector2(1, 5);
+        //     var end1 = new Vector2(2, 6);
+        //     var start2 = new Vector2(2, 6);
+        //     var end2 = new Vector2(1, 8);
+        //
+        //     Gizmos.color = Color.blue;
+        //     Gizmos.DrawLine(start1, end1);
+        //     Gizmos.DrawSphere(end1, 0.2f);
+        //     Gizmos.DrawLine(start2, end2);
+        //     Gizmos.color = Color.magenta;
+        //
+        //     var something = GetSomething(start1, end1, end2);
+        //     for (var i = 0; i < something.Length - 1; i++)
+        //     {
+        //         Gizmos.DrawLine(something[i], something[i + 1]);
+        //     }
+        // }
 
         private Vector2 QuadraticBezierCurves(Vector2 start, Vector2 middle, Vector2 end,  float x)
         {
@@ -101,7 +112,7 @@ namespace Source.Core.Components.Units.Enemies
 
         private Vector2[] GetSomething(Vector2 start, Vector2 middle, Vector2 end)
         {
-            var numOfSubs = 3;
+            var numOfSubs = 4;
             var result = new Vector2[numOfSubs];
 
             for (var i = 0; i < numOfSubs; i++)

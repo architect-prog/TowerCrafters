@@ -101,9 +101,9 @@ namespace Pathfinding {
 		}
 
 		GUIContent[] hexagonSizeContents = {
-			new GUIContent("Hexagon Width", "Distance between two opposing sides on the hexagon"),
-			new GUIContent("Hexagon Diameter", "Distance between two opposing vertices on the hexagon"),
-			new GUIContent("Node Size", "Raw node size value, this doesn't correspond to anything particular on the hexagon."),
+			new("Hexagon Width", "Distance between two opposing sides on the hexagon"),
+			new("Hexagon Diameter", "Distance between two opposing vertices on the hexagon"),
+			new("Node Size", "Raw node size value, this doesn't correspond to anything particular on the hexagon."),
 		};
 
 		void DrawFirstSection (GridGraph graph) {

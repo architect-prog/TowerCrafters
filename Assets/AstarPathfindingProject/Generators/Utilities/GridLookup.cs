@@ -19,9 +19,9 @@ namespace Pathfinding.Util {
 		/// Linked list of all items.
 		/// Note that the first item in the list is a dummy item and does not contain any data.
 		/// </summary>
-		Root all = new Root();
-		Dictionary<T, Root> rootLookup = new Dictionary<T, Root>();
-		Stack<Item> itemPool = new Stack<Item>();
+		Root all = new();
+		Dictionary<T, Root> rootLookup = new();
+		Stack<Item> itemPool = new();
 
 		public GridLookup (Int2 size) {
 			this.size = size;
@@ -41,9 +41,9 @@ namespace Pathfinding.Util {
 			public Root next;
 			/// <summary>Previous item in the linked list of all roots</summary>
 			internal Root prev;
-			internal IntRect previousBounds = new IntRect(0, 0, -1, -1);
+			internal IntRect previousBounds = new(0, 0, -1, -1);
 			/// <summary>References to an item in each grid cell that this object is contained inside</summary>
-			internal List<Item> items = new List<Item>();
+			internal List<Item> items = new();
 			internal bool flag;
 		}
 

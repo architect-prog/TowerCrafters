@@ -36,7 +36,7 @@ namespace Pathfinding {
 		protected static INavmeshHolder[] _navmeshHolders = new INavmeshHolder[0];
 
 		/// <summary>Used for synchronised access to the <see cref="_navmeshHolders"/> array</summary>
-		protected static readonly System.Object lockObject = new System.Object();
+		protected static readonly System.Object lockObject = new();
 
 		public static INavmeshHolder GetNavmeshHolder (uint graphIndex) {
 			return _navmeshHolders[(int)graphIndex];

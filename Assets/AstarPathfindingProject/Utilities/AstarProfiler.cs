@@ -14,13 +14,13 @@ namespace Pathfinding {
 		public class ProfilePoint {
 			//public DateTime lastRecorded;
 			//public TimeSpan totalTime;
-			public System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
+			public System.Diagnostics.Stopwatch watch = new();
 			public int totalCalls;
 			public long tmpBytes;
 			public long totalBytes;
 		}
 
-		static readonly Dictionary<string, ProfilePoint> profiles = new Dictionary<string, ProfilePoint>();
+		static readonly Dictionary<string, ProfilePoint> profiles = new();
 		static DateTime startTime = DateTime.UtcNow;
 
 		public static ProfilePoint[] fastProfiles;

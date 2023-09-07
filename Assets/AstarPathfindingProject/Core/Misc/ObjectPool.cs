@@ -56,10 +56,10 @@ namespace Pathfinding.Util {
 	/// </summary>
 	public static class ObjectPoolSimple<T> where T : class, new(){
 		/// <summary>Internal pool</summary>
-		static List<T> pool = new List<T>();
+		static List<T> pool = new();
 
 #if !ASTAR_NO_POOLING
-		static readonly HashSet<T> inPool = new HashSet<T>();
+		static readonly HashSet<T> inPool = new();
 #endif
 
 		/// <summary>

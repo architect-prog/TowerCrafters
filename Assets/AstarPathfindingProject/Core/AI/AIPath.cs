@@ -158,7 +158,7 @@ namespace Pathfinding {
 		protected Path path;
 
 		/// <summary>Helper which calculates points along the current path</summary>
-		protected PathInterpolator interpolator = new PathInterpolator();
+		protected PathInterpolator interpolator = new();
 
 		#region IAstarAI implementation
 
@@ -449,7 +449,7 @@ namespace Pathfinding {
 		[System.NonSerialized]
 		float lastChangedTime = float.NegativeInfinity;
 
-		protected static readonly Color GizmoColor = new Color(46.0f/255, 104.0f/255, 201.0f/255);
+		protected static readonly Color GizmoColor = new(46.0f/255, 104.0f/255, 201.0f/255);
 
 		protected override void OnDrawGizmos () {
 			base.OnDrawGizmos();

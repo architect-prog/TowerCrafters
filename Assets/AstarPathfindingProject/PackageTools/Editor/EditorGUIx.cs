@@ -5,7 +5,7 @@ using UnityEditor;
 namespace Pathfinding {
 	/// <summary>Simple GUI utility functions</summary>
 	public static class GUIUtilityx {
-		static Stack<Color> colors = new Stack<Color>();
+		static Stack<Color> colors = new();
 
 		public static void PushTint (Color tint) {
 			colors.Push(GUI.color);
@@ -143,7 +143,7 @@ namespace Pathfinding {
 	}
 	/// <summary>Handles fading effects and also some custom GUI functions such as LayerMaskField</summary>
 	public static class EditorGUILayoutx {
-		static Dictionary<int, string[]> layerNames = new Dictionary<int, string[]>();
+		static Dictionary<int, string[]> layerNames = new();
 		static long lastUpdateTick;
 
 		/// <summary>

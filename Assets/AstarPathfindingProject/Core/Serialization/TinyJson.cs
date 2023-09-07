@@ -19,14 +19,15 @@ namespace Pathfinding.Serialization {
 	/// well enough.
 	/// </summary>
 	public class TinyJsonSerializer {
-		System.Text.StringBuilder output = new System.Text.StringBuilder();
+		System.Text.StringBuilder output = new();
 
-		Dictionary<Type, Action<System.Object> > serializers = new Dictionary<Type, Action<object> >();
+		Dictionary<Type, Action<System.Object> > serializers = new();
 
 		static readonly System.Globalization.CultureInfo invariantCulture = System.Globalization.CultureInfo.InvariantCulture;
 
 		public static void Serialize (System.Object obj, System.Text.StringBuilder output) {
-			new TinyJsonSerializer() {
+			new TinyJsonSerializer
+			{
 				output = output
 			}.Serialize(obj);
 		}
@@ -177,7 +178,8 @@ namespace Pathfinding.Serialization {
 		/// Will load all fields into the populate object if it is set (only works for classes).
 		/// </summary>
 		public static System.Object Deserialize (string text, Type type, System.Object populate = null, GameObject contextRoot = null) {
-			return new TinyJsonDeserializer() {
+			return new TinyJsonDeserializer
+			{
 					   reader = new System.IO.StringReader(text),
 					   contextRoot = contextRoot,
 			}.Deserialize(type, populate);
@@ -386,7 +388,7 @@ namespace Pathfinding.Serialization {
 			}
 		}
 
-		System.Text.StringBuilder builder = new System.Text.StringBuilder();
+		System.Text.StringBuilder builder = new();
 		string EatUntil (string c, bool inString) {
 			builder.Length = 0;
 			var escape = false;

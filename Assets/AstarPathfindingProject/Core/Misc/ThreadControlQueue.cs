@@ -9,7 +9,7 @@ namespace Pathfinding {
 		Path head;
 		Path tail;
 
-		readonly System.Object lockObj = new System.Object();
+		readonly System.Object lockObj = new();
 
 		readonly int numReceivers;
 
@@ -33,7 +33,7 @@ namespace Pathfinding {
 		/// </summary>
 		bool terminate;
 
-		ManualResetEvent block = new ManualResetEvent(true);
+		ManualResetEvent block = new(true);
 
 		/// <summary>
 		/// Create a new queue with the specified number of receivers.

@@ -42,7 +42,7 @@ namespace Pathfinding {
 
 		/// <summary>Path modifier which tweaks the start and end points of a path</summary>
 		[HideInInspector]
-		public StartEndModifier startEndModifier = new StartEndModifier();
+		public StartEndModifier startEndModifier = new();
 
 		/// <summary>
 		/// The tags which the Seeker can traverse.
@@ -144,7 +144,7 @@ namespace Pathfinding {
 		protected uint lastPathID;
 
 		/// <summary>Internal list of all modifiers</summary>
-		readonly List<IPathModifier> modifiers = new List<IPathModifier>();
+		readonly List<IPathModifier> modifiers = new();
 
 		public enum ModifierPass {
 			PreProcess,
