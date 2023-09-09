@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Source.Common.AI.Interfaces;
+using Source.Common.AI.Sensors.Interfaces;
 using Source.Common.DI;
 using Source.Common.Editor;
 using Source.Core.Components.Units.Common;

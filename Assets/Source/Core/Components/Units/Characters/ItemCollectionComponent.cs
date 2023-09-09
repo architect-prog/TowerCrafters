@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Source.Core.Components.Units.Characters
 {
-    [RequireComponent(typeof(CircleCollider2D))]
+    [RequireComponent(typeof(Collider2D))]
     public sealed class ItemCollectionComponent : MonoBehaviour, IItemCollectionComponent
     {
         private void OnTriggerEnter2D(Collider2D other)

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
-using Source.Common.AI.Interfaces;
+using Source.Common.AI.Sensors.Interfaces;
 using UnityEngine;
 
 namespace Source.Common.Editor
 {
     [ExecuteAlways]
-    [RequireComponent(typeof(ITargetProvider))]
-    public class TargetProviderDebugUI : MonoBehaviour
+    [RequireComponent(typeof(ISensor))]
+    public class SensorDebugUI : MonoBehaviour
     {
         [SerializeField] private Color areaColor;
         [SerializeField] private Color targetsColor;
@@ -16,24 +16,28 @@ namespace Source.Common.Editor
         private Mesh detectingArea;
         private Collider2D detectingCollider;
         private Bounds detectingColliderBounds;
-        private ITargetProvider[] targetProviders = Array.Empty<ITargetProvider>();
+        private ISensor[] sensors = Array.Empty<ISensor>();
 
         private void Start()
         {
-            targetProviders = GetComponents<ITargetProvider>();
+            sensors = GetComponents<ISensor>();
             detectingCollider = GetComponent<Collider2D>();
         }
 
         private void OnDrawGizmos()
         {
+            if (!enabled)
+                return;
+
             Gizmos.color = targetsColor;
-            var targets = targetProviders.SelectMany(x => x.Targets).ToArray();
+            var targets = sensors.SelectMany(x => x.Targets).ToArray();
 
             foreach (var target in targets)
             {
                 Gizmos.DrawSphere(target.transform.position, targetRadius);
             }
 
+            Gizmos.color = areaColor;
             if (detectingCollider is not null)
             {
                 if (detectingColliderBounds != detectingCollider.bounds)
@@ -43,7 +47,6 @@ namespace Source.Common.Editor
                     detectingArea.RecalculateNormals();
                 }
 
-                Gizmos.color = areaColor;
                 Gizmos.DrawMesh(detectingArea);
             }
         }

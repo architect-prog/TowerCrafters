@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Source.Common.AI.Interfaces
+namespace Source.Common.AI.StateMachine.Interfaces
 {
     public interface IStateMachine
     {

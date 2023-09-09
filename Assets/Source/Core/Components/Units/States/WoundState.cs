@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Source.Common.AI.Interfaces;
+using Source.Common.AI.StateMachine.Interfaces;
 
 namespace Source.Core.Components.Units.States
 {

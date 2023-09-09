@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Source.Common.AI;
-using Source.Common.AI.Interfaces;
+using Source.Common.AI.Sensors;
+using Source.Common.AI.Sensors.Interfaces;
 using Source.Common.DI;
 using Source.Core.Components.Units.Characters;
 using Source.Core.Components.Units.Common;
@@ -38,11 +37,6 @@ namespace Source.Core.Components.Units.Enemies
         {
             rotating = rotatingComponent;
             character = FindFirstObjectByType<Character>();
-
-            obstacleSensor.targetsChanged += targets =>
-            {
-                obstacles = targets.Select(x => x.GetComponent<Collider2D>()).ToArray();
-            };
         }
 
         public void Move()

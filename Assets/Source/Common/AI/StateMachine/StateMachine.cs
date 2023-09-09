@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Source.Common.AI.Contracts;
-using Source.Common.AI.Interfaces;
+using Source.Common.AI.StateMachine.Interfaces;
 using Source.Common.Extensions;
 using UnityEngine;
 
-namespace Source.Common.AI
+namespace Source.Common.AI.StateMachine
 {
     public sealed class StateMachine : IStateMachine
     {

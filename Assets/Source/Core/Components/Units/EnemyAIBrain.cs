@@ -1,5 +1,6 @@
-﻿using Source.Common.AI;
-using Source.Common.AI.Interfaces;
+﻿using Source.Common.AI.Sensors;
+using Source.Common.AI.StateMachine;
+using Source.Common.AI.StateMachine.Interfaces;
 using Source.Common.DI;
 using Source.Core.Components.Units.States;
 using Source.Kernel.Interfaces.Components;
@@ -17,8 +18,6 @@ namespace Source.Core.Components.Units
         private AttackState attackState;
         private DieState dieState;
         private WoundState woundState;
-
-        private GameObject attackTarget;
 
         [Construct]
         public void Construct(
@@ -38,9 +37,9 @@ namespace Source.Core.Components.Units
             woundState = new WoundState(animatorAdapter);
 
             stateMachine = new StateMachine(this)
-                .AddTransition(attackState, moveState, () => !attackTarget)
-                .AddTransition(woundState, moveState, () => !attackTarget)
-                .AddAnyTransition(attackState, () => attackTarget);
+                .AddTransition(attackState, moveState, () => targetSensor.Target is null)
+                .AddTransition(woundState, moveState, () => targetSensor.Target is null)
+                .AddAnyTransition(attackState, () => targetSensor.Target is not null);
 
             stateMachine.SetState(moveState);
             stateMachine.Start();
@@ -53,22 +52,18 @@ namespace Source.Core.Components.Units
             UnsubscribeFromEvents();
         }
 
-        private void TargetChangeHandler(GameObject detectedTarget) => attackTarget = detectedTarget;
-
         private void DiedHandler() => stateMachine.SetState(dieState);
 
         private void DamageTakenHandler() => stateMachine.SetState(woundState);
 
         private void SubscribeToEvents()
         {
-            targetSensor.targetChanged += TargetChangeHandler;
             health.damageTaken += DamageTakenHandler;
             health.died += DiedHandler;
         }
 
         private void UnsubscribeFromEvents()
         {
-            targetSensor.targetChanged -= TargetChangeHandler;
             health.damageTaken -= DamageTakenHandler;
             health.died -= DiedHandler;
         }

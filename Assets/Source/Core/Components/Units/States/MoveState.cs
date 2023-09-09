@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Source.Common.AI.Interfaces;
+using Source.Common.AI.StateMachine.Interfaces;
 using Source.Kernel.Interfaces.Components;
 using UnityEngine;
 

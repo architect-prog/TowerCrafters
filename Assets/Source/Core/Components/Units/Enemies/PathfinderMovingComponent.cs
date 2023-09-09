@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Pathfinding;
-using Source.Common.AI.Interfaces;
+using Source.Common.AI.Sensors.Interfaces;
 using Source.Common.DI;
 using Source.Core.Components.Units.Characters;
 using Source.Core.Components.Units.Common;

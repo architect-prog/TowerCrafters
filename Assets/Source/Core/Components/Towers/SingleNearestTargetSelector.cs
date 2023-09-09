@@ -22,7 +22,7 @@ namespace Source.Core.Components.Towers
 
             var result = targets
                 .Where(x => x)
-                .GetNearestFor(owner);
+                .GetNearestFor(owner.transform.position);
 
             return result;
         }

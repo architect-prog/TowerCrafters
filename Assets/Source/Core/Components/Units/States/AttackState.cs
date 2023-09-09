@@ -1,5 +1,6 @@
 ﻿using System.Collections;
-using Source.Common.AI.Interfaces;
+using Source.Common.AI.Sensors.Interfaces;
+using Source.Common.AI.StateMachine.Interfaces;
 using Source.Kernel.Interfaces.Components;
 using UnityEngine;
 
@@ -9,13 +10,13 @@ namespace Source.Core.Components.Units.States
     {
         private readonly AnimatorAdapter animatorAdapter;
         private readonly IAttackComponent attackComponent;
-        private readonly ITargetProvider targetProvider;
+        private readonly ISensor targetProvider;
         private readonly IRotatingComponent rotatingComponent;
 
         public AttackState(
             AnimatorAdapter animatorAdapter,
             IAttackComponent attackComponent,
-            ITargetProvider targetProvider,
+            ISensor targetProvider,
             IRotatingComponent rotatingComponent)
         {
             this.animatorAdapter = animatorAdapter;
@@ -31,7 +32,7 @@ namespace Source.Core.Components.Units.States
         public IEnumerator Update()
         {
             animatorAdapter.Attack();
-            rotatingComponent.Rotate(targetProvider.Target);
+            rotatingComponent.Rotate(targetProvider.Target.gameObject);
             yield return new WaitForSeconds(attackComponent.DelayBeforeAttack);
             attackComponent.Attack();
             yield return new WaitForSeconds(attackComponent.AttackFrequency);

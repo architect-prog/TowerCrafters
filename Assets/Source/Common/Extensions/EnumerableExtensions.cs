@@ -7,12 +7,11 @@ namespace Source.Common.Extensions
 {
     public static class EnumerableExtensions
     {
-        public static TTarget GetNearestFor<TTarget, TSource>(this IEnumerable<TTarget> targets, TSource source)
-            where TTarget : MonoBehaviour
-            where TSource : MonoBehaviour
+        public static TTarget GetNearestFor<TTarget>(this IEnumerable<TTarget> objects, Vector2 position)
+            where TTarget : Component
         {
-            var result = targets
-                .MinBy(x => Vector3.Distance(source.transform.position, x.transform.position));
+            var result = objects
+                .MinBy(x => Vector3.Distance(position, x.transform.position));
 
             return result;
         }
@@ -69,6 +68,17 @@ namespace Source.Common.Extensions
             }
 
             return max;
+        }
+
+        public static TSource[] Clear<TSource>(this TSource[] source, TSource clearValue = default)
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+
+            for (var i = 0; i < source.Length; i++)
+                source[i] = clearValue;
+
+            return source;
         }
     }
 }
